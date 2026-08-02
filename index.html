@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A.M.A — Ask us anything, we'll build it.</title>
+<meta name="description" content="A small studio for web design, AI automation, MVPs and apps. Send the problem; we send a plan.">
+<link rel="icon" href="assets/logo-badge.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        ink:      '#1A1614',
+        accent:   '#FC362D',
+        paper:    '#F5EFE6',
+        graphite: '#3D3934',
+        linen:    '#C7BFAE',
+        raised:   '#EFE7DA',
+        blush:    '#FAD6D4',
+      },
+      fontFamily: {
+        display: ['"Inter Tight"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans:    ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono:    ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
+      maxWidth: { shell: '1200px', measure: '70ch' },
+    },
+  },
+};
+</script>
+
+<style>
+  /* ---- Tokens -------------------------------------------------------- */
+  :root {
+    --ink: #1A1614;
+    --accent: #FC362D;
+    /* Template ground: flat white, with one blush panel for the closing CTA. */
+    --page: #FFFFFF;
+    --blush: #FAD6D4;
+    --paper: #F5EFE6;
+    --linen: #C7BFAE;
+    --text-body: #333333;
+
+    /* Spacing scale — one ladder, used everywhere */
+    --s-1: 8px;  --s-2: 16px; --s-3: 24px;
+    --s-4: 40px; --s-5: 64px; --s-6: 104px;
+
+    /* Depth: base -> elevated -> floating. Shadows tinted with Ink, never grey. */
+    --lift-1: 0 1px 2px rgba(26,22,20,.05), 0 2px 8px -2px rgba(26,22,20,.06);
+    --lift-2: 0 1px 2px rgba(26,22,20,.05), 0 10px 28px -12px rgba(26,22,20,.14);
+    --lift-3: 0 2px 4px rgba(26,22,20,.06), 0 22px 50px -18px rgba(26,22,20,.24);
+    --lift-accent: 0 1px 2px rgba(26,22,20,.10), 0 14px 32px -14px rgba(252,54,45,.42);
+
+    --ease-spring: cubic-bezier(.22,1,.36,1);
+    /* Measured off the template: ~450ms reveal on an ease-out cubic. */
+    --ease-out: cubic-bezier(.33,1,.68,1);
+    --reveal: 450ms;
+    --rule: rgba(26,22,20,.12);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- Type ----------------------------------------------------------- */
+  /* Template pairing: Inter Tight for headings, Inter for text and UI.
+     Weight rhythm follows the template — heavy hero, medium section heads. */
+  .u-display {
+    font-family: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 600; line-height: 1.06; letter-spacing: -.02em;
+  }
+  .u-h1 { font-size: clamp(2.75rem, 5.6vw, 4.5rem); font-weight: 800; letter-spacing: -.035em; line-height: 1.04; }
+  .u-h2 { font-size: clamp(2rem, 3.6vw, 3rem);      font-weight: 600; letter-spacing: -.03em;  line-height: 1.1; }
+  .u-h3 { font-size: clamp(1.25rem, 1.8vw, 1.5rem); font-weight: 600; letter-spacing: -.02em;  line-height: 1.25; }
+  /* Body copy, matched to the template: 16px / 26px, -0.2px, neutral grey. */
+  .u-body {
+    font-size: 1rem;
+    line-height: 1.625;
+    letter-spacing: -.0125em;
+    color: var(--text-body);
+  }
+
+  /* Section labels and metadata — uppercase Inter, tracked out. */
+  .u-label {
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    font-size: .6875rem; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase;
+  }
+
+  /* ---- Signature: the load-bearing full stop -------------------------- */
+  /* The brand's stops "do the work of a pause". They recur as an accent dot:
+     eyebrows, section rules, headline terminals, accordion markers. */
+  .stop { color: var(--accent); }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 7px 16px 7px 12px;
+    border: 1px solid var(--rule); border-radius: 999px;
+    background: #FFFFFF;
+    box-shadow: var(--lift-1);
+  }
+  .eyebrow::before {
+    content: ""; width: 7px; height: 7px; border-radius: 999px;
+    background: var(--accent); flex: none;
+  }
+
+  .rule-dot {
+    display: flex; align-items: center; gap: var(--s-2);
+    color: var(--rule);
+  }
+  .rule-dot::before, .rule-dot::after {
+    content: ""; height: 1px; background: var(--rule); flex: 1;
+  }
+  .rule-dot > i {
+    width: 6px; height: 6px; border-radius: 999px;
+    background: var(--accent); flex: none;
+  }
+
+  /* ---- Surfaces ------------------------------------------------------- */
+  .card {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 20px;
+    box-shadow: var(--lift-1);
+  }
+  /* No hover state: the template's FAQ and testimonial rows are inert. */
+
+  /* ---- Services: sticky card deck -------------------------------------
+     The template pins each card 20px lower than the one before, so they
+     gather into a stack as you scroll and the next slides over the last.
+     Cards must stay opaque or the ones underneath show through. */
+  /* Each card must paint over the one before, or a later card slides
+     underneath the pinned deck instead of covering it. */
+  .stack > li { position: sticky; }
+  .stack > li:nth-child(1) { top: calc(var(--stack-top));        z-index: 1; }
+  .stack > li:nth-child(2) { top: calc(var(--stack-top) + 20px); z-index: 2; }
+  .stack > li:nth-child(3) { top: calc(var(--stack-top) + 40px); z-index: 3; }
+  /* The last card stays in flow and rides up over the deck — the template
+     does the same. Pinning it too would clamp the whole stack against the
+     container's content box and collapse the 20px reveals. */
+  .stack > li:last-child { position: relative; z-index: 4; }
+
+  @media (max-width: 1023px) {
+    /* Stacking needs the tall scroll run of the two-column layout. */
+    .stack > li { position: static; }
+  }
+
+  /* Grain — keeps the flat paper ground from reading as dead white. */
+  .grain::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    opacity: .05; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---- Images: gradient overlay + colour treatment --------------------- */
+  .shot { position: relative; overflow: hidden; border-radius: 20px; background: var(--linen); }
+  .shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .shot::before {
+    content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background: linear-gradient(to top, rgba(26,22,20,.60), rgba(26,22,20,0) 62%);
+  }
+  .shot::after {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: var(--accent); mix-blend-mode: multiply; opacity: .06;
+  }
+
+  /* ---- Interactive states — every clickable gets all three ------------- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 24px; border-radius: 999px;
+    font-size: .9375rem; font-weight: 500; line-height: 1;
+    transition: background-color .3s var(--ease-out), color .3s var(--ease-out),
+                border-color .3s var(--ease-out), box-shadow .3s var(--ease-out),
+                transform .2s var(--ease-out);
+  }
+  /* The template swaps button fills rather than lifting them — red goes to
+     ink on hover, and there is no translate on any button. */
+  .btn:active { transform: scale(.985); }
+  .btn-ink    { background: var(--ink); color: #FFFFFF; box-shadow: var(--lift-2); }
+  .btn-ink:hover { background: var(--accent); box-shadow: var(--lift-accent); }
+  .btn-accent { background: var(--accent); color: #FFFFFF; box-shadow: var(--lift-accent); }
+  .btn-accent:hover { background: var(--ink); box-shadow: var(--lift-2); }
+  .btn-ghost  { border: 1px solid var(--rule); color: var(--ink); }
+  .btn-ghost:hover { background: var(--accent); border-color: var(--accent); color: #FFFFFF; }
+  .btn .arw { transition: transform .3s var(--ease-out); }
+  .btn:hover .arw { transform: translateX(3px); }
+
+  /* Nav links fill into a red pill, text going white. */
+  .navlink {
+    border-radius: 999px; padding: 7px 15px;
+    transition: background-color .3s var(--ease-out), color .3s var(--ease-out);
+  }
+  .navlink:hover, .navlink[aria-current] { background: var(--accent); color: #FFFFFF; }
+
+  /* Footer links just take the accent colour — no pill. */
+  .footlink { transition: color .3s var(--ease-out); }
+  .footlink:hover { color: var(--accent); }
+
+  /* Social rows: label goes red and the square badge rotates 45deg. */
+  .sociallink { transition: color .3s var(--ease-out); }
+  .sociallink:hover { color: var(--accent); }
+  .sociallink .badge {
+    display: grid; place-items: center;
+    width: 22px; height: 22px; border-radius: 6px;
+    background: var(--ink); color: #FFFFFF; flex: none;
+    transition: transform .3s var(--ease-out), background-color .3s var(--ease-out);
+  }
+  .sociallink:hover .badge { transform: rotate(45deg); background: var(--accent); }
+
+  /* Project cards zoom their image rather than lifting the card. */
+  .shot img { transition: transform .5s var(--ease-out); }
+  .group:hover .shot img { transform: scale(1.2); }
+
+  :where(a, button, summary, input):focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* ---- Phone menu button ---------------------------------------------- */
+  #menu-btn .icon-close { display: none; }
+  #menu-btn[aria-expanded="true"] .icon-open  { display: none; }
+  #menu-btn[aria-expanded="true"] .icon-close { display: block; }
+  #mobile-menu[hidden] { display: none; }
+  #mobile-menu { animation: unfold .3s var(--ease-out) both; }
+
+  /* ---- Accordions (testimonials + FAQ) -------------------------------- */
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  .chev { transition: transform .4s var(--ease-spring); }
+  details[open] .chev { transform: rotate(45deg); }
+  .acc-body { animation: unfold .45s var(--ease-spring) both; }
+  @keyframes unfold { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+  /* ---- Entrance ------------------------------------------------------- */
+  /* Matches the template: opacity 0 -> 1 with a short lift for text and a
+     long one for large blocks, ~450ms on an ease-out cubic. Transform and
+     opacity only, so it stays on the compositor.
+     Hidden only once JS is confirmed — without it the page still reads fully. */
+  .js .rise      { opacity: 0; transform: translateY(20px); }
+  .js .rise-far  { opacity: 0; transform: translateY(150px); }
+  .js .rise.seen, .js .rise-far.seen {
+    opacity: 1; transform: none;
+    transition: opacity var(--reveal) var(--ease-out), transform var(--reveal) var(--ease-out);
+  }
+  .js .rise, .js .rise-far { will-change: transform, opacity; }
+  .js .rise.seen, .js .rise-far.seen { will-change: auto; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      transition-duration: .01ms !important;
+    }
+    .js .rise, .js .rise-far { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+
+<body class="font-sans antialiased">
+
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-ink focus:text-paper focus:px-5 focus:py-3 focus:rounded-full">Skip to content</a>
+
+<!-- ============================ NAV ============================ -->
+<header class="sticky top-0 z-40 border-b border-[color:var(--rule)] bg-white/85 backdrop-blur-md">
+  <div class="mx-auto flex max-w-shell items-center gap-6 px-6 py-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+
+    <!-- Clear space (cap-height of the A) is enforced here, not baked into the file -->
+    <a href="#" class="flex-none justify-self-start py-1 pr-2 transition-opacity duration-300 hover:opacity-80">
+      <img src="assets/logo-badge.png" alt="A.M.A" class="h-10 w-auto rounded-lg" width="321" height="172">
+    </a>
+
+    <nav class="hidden items-center gap-9 text-[.9375rem] lg:flex" aria-label="Primary">
+      <a href="#work"     class="navlink">Work</a>
+      <a href="#services" class="navlink">Services</a>
+      <a href="#pricing"  class="navlink">Pricing</a>
+      <a href="#notes"    class="navlink">Notes</a>
+    </nav>
+
+    <div class="ml-auto flex items-center gap-3 lg:ml-0 lg:justify-self-end">
+      <!-- Search and the CTA are desktop-only; phones get the menu button instead. -->
+      <button type="button" aria-label="Search" class="hidden h-10 w-10 place-items-center rounded-full border border-[color:var(--rule)] lg:grid">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+        </svg>
+      </button>
+
+      <a href="#contact" class="btn btn-ink hidden lg:inline-flex">Ask us anything <span class="arw" aria-hidden="true">→</span></a>
+
+      <button type="button" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"
+              class="grid h-10 w-10 place-items-center rounded-full border border-[color:var(--rule)] transition-transform duration-300 active:scale-95 lg:hidden">
+        <svg class="icon-open" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16"/>
+        </svg>
+        <svg class="icon-close" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Phone navigation. The links live only here below 1024px, so the button
+       has to open something real rather than sit there as decoration. -->
+  <div id="mobile-menu" hidden class="border-t border-[color:var(--rule)] bg-white lg:hidden">
+    <nav class="mx-auto max-w-shell px-6 py-4" aria-label="Mobile">
+      <ul class="text-[1.0625rem]">
+        <li><a href="#work"     class="block border-b border-[color:var(--rule)] py-3.5">Work</a></li>
+        <li><a href="#services" class="block border-b border-[color:var(--rule)] py-3.5">Services</a></li>
+        <li><a href="#pricing"  class="block border-b border-[color:var(--rule)] py-3.5">Pricing</a></li>
+        <li><a href="#notes"    class="block py-3.5">Notes</a></li>
+      </ul>
+      <a href="#contact" class="btn btn-ink mt-4 w-full justify-center">Ask us anything <span class="arw" aria-hidden="true">→</span></a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============================ HERO ============================ -->
+<section class="relative overflow-hidden">
+  <div class="mx-auto grid max-w-shell items-center gap-x-16 gap-y-12 px-6 pb-20 pt-16 md:pt-20 lg:grid-cols-[1.05fr_.95fr] lg:pb-28">
+
+    <div class="rise">
+      <p class="eyebrow u-label">Web · Apps · AI · MVPs</p>
+
+      <h1 class="u-display u-h1 mt-7">
+        Ask us anything<br>
+        <span class="text-accent">we'll build it.</span>
+      </h1>
+
+      <p class="u-body mt-7 max-w-[46ch]">
+        A small studio for web design, AI automation, MVPs and apps.
+        Send the problem; we send a plan.
+      </p>
+
+      <div class="mt-9">
+        <a href="#contact" class="btn btn-accent">Start a project <span class="arw" aria-hidden="true">→</span></a>
+      </div>
+
+      <!-- Social proof -->
+      <div class="mt-12 inline-flex items-center gap-4 rounded-2xl border border-[color:var(--rule)] bg-white/55 p-3 pr-5" style="box-shadow: var(--lift-1)">
+        <div class="flex -space-x-2.5">
+          <img src="https://placehold.co/72x72/C7BFAE/C7BFAE" alt="" class="h-9 w-9 rounded-full border-2 border-paper object-cover">
+          <img src="https://placehold.co/72x72/C7BFAE/C7BFAE" alt="" class="h-9 w-9 rounded-full border-2 border-paper object-cover">
+          <img src="https://placehold.co/72x72/C7BFAE/C7BFAE" alt="" class="h-9 w-9 rounded-full border-2 border-paper object-cover">
+          <img src="https://placehold.co/72x72/C7BFAE/C7BFAE" alt="" class="h-9 w-9 rounded-full border-2 border-paper object-cover">
+        </div>
+        <div>
+          <p class="text-sm font-medium leading-tight">40+ projects shipped</p>
+          <p class="u-label mt-1 text-graphite/70"><span class="text-accent">★★★★★</span> &nbsp;4.9/5 · 28 reviews</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rise-far shot aspect-[4/3] w-full lg:aspect-[5/4]" style="box-shadow: var(--lift-3)">
+      <img src="https://placehold.co/1000x800" alt="The A.M.A studio team working through a client problem at a table">
+      <p class="u-label absolute bottom-5 left-6 z-[3] text-paper/85">A conversation before a company</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======================= TRUSTED STRIP ======================= -->
+<section class="border-y border-[color:var(--rule)] py-10">
+  <div class="mx-auto max-w-shell px-6">
+    <p class="u-label text-center text-graphite/60">Trusted by 40+ teams around the globe</p>
+    <ul class="mt-7 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 lg:justify-between">
+      <li class="u-display text-2xl text-graphite/45">Northwind</li>
+      <li class="font-mono text-lg tracking-[.2em] text-graphite/45">LOOPWORK</li>
+      <li class="u-display text-2xl italic text-graphite/45">Ipsum &amp; Co</li>
+      <li class="font-sans text-xl font-semibold tracking-tight text-graphite/45">Meridian</li>
+      <li class="font-mono text-lg tracking-[.2em] text-graphite/45">HALCYON</li>
+      <li class="u-display text-2xl text-graphite/45">Fieldnote</li>
+      <li class="font-sans text-xl font-semibold tracking-tight text-graphite/45">Otter</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ ABOUT ============================ -->
+<section id="about" class="px-6 py-20 lg:py-28">
+  <div class="mx-auto max-w-shell">
+
+    <div class="rise mx-auto max-w-3xl text-center">
+      <p class="eyebrow u-label">About the studio</p>
+      <h2 class="u-display u-h2 mt-6">
+        We answer fast, ship small,<br class="hidden md:block">
+        and fix it in daylight<span class="stop">.</span>
+      </h2>
+    </div>
+
+    <div class="mt-16 grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div class="rise-far shot aspect-[4/3]" style="box-shadow: var(--lift-2)">
+        <img src="https://placehold.co/900x680" alt="Two A.M.A designers reviewing a build on a laptop">
+      </div>
+
+      <div class="rise">
+        <p class="u-body max-w-measure">
+          Most agencies answer with a deck. We answer with a plan, then a working thing you can click.
+          You talk to the people building it — no account layer, no handoff, no "per our last email".
+        </p>
+
+        <dl class="mt-10 grid grid-cols-3 gap-6">
+          <div class="flex flex-col-reverse">
+            <dt class="u-label mt-3 text-graphite/60">Projects shipped</dt>
+            <dd class="u-display text-[3.25rem] font-extrabold leading-none">40<span class="stop">+</span></dd>
+          </div>
+          <div class="flex flex-col-reverse">
+            <dt class="u-label mt-3 text-graphite/60">Years building</dt>
+            <dd class="u-display text-[3.25rem] font-extrabold leading-none">6<span class="stop">+</span></dd>
+          </div>
+          <div class="flex flex-col-reverse">
+            <dt class="u-label mt-3 text-graphite/60">Clients who return</dt>
+            <dd class="u-display text-[3.25rem] font-extrabold leading-none">94<span class="stop">%</span></dd>
+          </div>
+        </dl>
+
+        <a href="#contact" class="btn btn-ink mt-10">Start a project <span class="arw" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ SERVICES ============================ -->
+<section id="services" class="px-6 py-20 lg:py-28">
+  <div class="mx-auto grid max-w-shell gap-12 lg:grid-cols-[.85fr_1.15fr] lg:gap-16">
+
+    <div class="rise lg:sticky lg:top-28 lg:self-start">
+      <p class="eyebrow u-label">What we do</p>
+      <h2 class="u-display u-h2 mt-6">Ask us for<br>any of these<span class="stop">.</span></h2>
+      <p class="u-body mt-6 max-w-measure">
+        Four things, done properly. If your problem sits between two of them, that's usually
+        the interesting one — ask anyway.
+      </p>
+      <a href="#contact" class="btn btn-accent mt-8">Get started <span class="arw" aria-hidden="true">→</span></a>
+    </div>
+
+    <!-- --stack-top clears the sticky header so pinned cards sit below it -->
+    <ul class="stack space-y-10" style="--stack-top: 104px">
+      <li class="card rise min-h-[228px] p-8">
+        <span class="mb-5 grid h-11 w-11 place-items-center rounded-xl bg-accent text-paper" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="15" rx="2"/><path d="M3 9h18"/></svg>
+        </span>
+        <div>
+          <h3 class="u-display text-[1.375rem]">Web design</h3>
+          <p class="u-body mt-2 max-w-measure">
+            Sites that say the right thing in the first five seconds, then hold up on a slow phone.
+          </p>
+        </div>
+      </li>
+
+      <li class="card rise min-h-[228px] p-8">
+        <span class="mb-5 grid h-11 w-11 place-items-center rounded-xl bg-accent text-paper" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.2"/></svg>
+        </span>
+        <div>
+          <h3 class="u-display text-[1.375rem]">AI automation</h3>
+          <p class="u-body mt-2 max-w-measure">
+            The repetitive part of your week, handed to a system that does it the same way every time.
+          </p>
+        </div>
+      </li>
+
+      <li class="card rise min-h-[228px] p-8">
+        <span class="mb-5 grid h-11 w-11 place-items-center rounded-xl bg-accent text-paper" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13H11l-1 9 8.5-11H12l1-9Z"/></svg>
+        </span>
+        <div>
+          <h3 class="u-display text-[1.375rem]">MVPs &amp; apps</h3>
+          <p class="u-body mt-2 max-w-measure">
+            The smallest version that proves the idea, live in weeks — not the full thing in a year.
+          </p>
+        </div>
+      </li>
+
+      <li class="card rise min-h-[228px] p-8">
+        <span class="mb-5 grid h-11 w-11 place-items-center rounded-xl bg-accent text-paper" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18"/><path d="M3.5 9h17M3.5 15h17"/></svg>
+        </span>
+        <div>
+          <h3 class="u-display text-[1.375rem]">Brand &amp; identity</h3>
+          <p class="u-body mt-2 max-w-measure">
+            A name, a mark, and a voice that still fit once the company has grown into them.
+          </p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ WORK ============================ -->
+<section id="work" class="px-6 py-20 lg:py-28">
+  <div class="mx-auto max-w-shell">
+    <div class="rise mx-auto max-w-2xl text-center">
+      <p class="eyebrow u-label">Recent work</p>
+      <h2 class="u-display u-h2 mt-6">Work we'd show you first<span class="stop">.</span></h2>
+      <p class="u-body mt-5">
+        Four we're glad to be judged on. Each one started as a question and ended as something shipped.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-6 md:grid-cols-2">
+      <article class="rise-far group">
+        <a href="#work" class="block">
+          <div class="shot aspect-[4/3]" style="box-shadow: var(--lift-2)">
+            <img src="https://placehold.co/840x630" alt="Greenleaf — brand and site">
+          </div>
+          <h3 class="u-display mt-4 text-[1.375rem]">Greenleaf</h3>
+        </a>
+      </article>
+
+      <article class="rise-far group">
+        <a href="#work" class="block">
+          <div class="shot aspect-[4/3]" style="box-shadow: var(--lift-2)">
+            <img src="https://placehold.co/840x630" alt="Sunrise Resort — booking platform">
+          </div>
+          <h3 class="u-display mt-4 text-[1.375rem]">Sunrise Resort</h3>
+        </a>
+      </article>
+
+      <article class="rise-far group">
+        <a href="#work" class="block">
+          <div class="shot aspect-[4/3]" style="box-shadow: var(--lift-2)">
+            <img src="https://placehold.co/840x630" alt="Johnson &amp; Partners — intake automation">
+          </div>
+          <h3 class="u-display mt-4 text-[1.375rem]">Johnson &amp; Partners</h3>
+        </a>
+      </article>
+
+      <article class="rise-far group">
+        <a href="#work" class="block">
+          <div class="shot aspect-[4/3]" style="box-shadow: var(--lift-2)">
+            <img src="https://placehold.co/840x630" alt="Sweet Delights — ordering MVP">
+          </div>
+          <h3 class="u-display mt-4 text-[1.375rem]">Sweet Delights</h3>
+        </a>
+      </article>
+    </div>
+
+    <div class="mt-12 text-center">
+      <a href="#work" class="btn btn-accent">All projects <span class="arw" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TESTIMONIALS ======================= -->
+<section id="notes" class="px-6 py-20 lg:py-28">
+  <div class="mx-auto max-w-shell">
+    <div class="rise mx-auto max-w-2xl text-center">
+      <p class="eyebrow u-label">What clients say</p>
+      <h2 class="u-display u-h2 mt-6">The reply, from their side<span class="stop">.</span></h2>
+      <p class="u-body mt-5">
+        We asked four clients what it was actually like. These are their words, lightly trimmed.
+      </p>
+    </div>
+
+    <div class="mx-auto mt-14 max-w-4xl space-y-3">
+
+      <details class="card rise px-6" open>
+        <summary class="flex items-center gap-4 py-5">
+          <img src="https://placehold.co/88x88/C7BFAE/C7BFAE" alt="" class="h-11 w-11 flex-none rounded-full object-cover">
+          <span class="min-w-0">
+            <span class="block font-medium">Alec Ramírez</span>
+            <span class="u-label block text-graphite/60">Founder · Greenleaf</span>
+          </span>
+          <span class="chev ml-auto grid h-9 w-9 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="acc-body u-body max-w-measure pb-6 pl-[3.75rem]">
+          "I sent them a messy problem on a Tuesday and had a plan on Friday, exactly like they said.
+          The first version was smaller than I expected — and that turned out to be the point."
+        </p>
+      </details>
+
+      <details class="card rise px-6">
+        <summary class="flex items-center gap-4 py-5">
+          <img src="https://placehold.co/88x88/C7BFAE/C7BFAE" alt="" class="h-11 w-11 flex-none rounded-full object-cover">
+          <span class="min-w-0">
+            <span class="block font-medium">Sofia Lee</span>
+            <span class="u-label block text-graphite/60">Operations · Halcyon</span>
+          </span>
+          <span class="chev ml-auto grid h-9 w-9 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="acc-body u-body max-w-measure pb-6 pl-[3.75rem]">
+          "The automation they built quietly removed about six hours a week from my team.
+          Nobody had to be trained on it, which I think is the highest compliment I can give."
+        </p>
+      </details>
+
+      <details class="card rise px-6">
+        <summary class="flex items-center gap-4 py-5">
+          <img src="https://placehold.co/88x88/C7BFAE/C7BFAE" alt="" class="h-11 w-11 flex-none rounded-full object-cover">
+          <span class="min-w-0">
+            <span class="block font-medium">Lucca Rossi</span>
+            <span class="u-label block text-graphite/60">Founder · Sweet Delights</span>
+          </span>
+          <span class="chev ml-auto grid h-9 w-9 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="acc-body u-body max-w-measure pb-6 pl-[3.75rem]">
+          "They talked me out of half my feature list in the first call. We launched in five weeks
+          and I have never once missed the things we cut."
+        </p>
+      </details>
+
+      <details class="card rise px-6">
+        <summary class="flex items-center gap-4 py-5">
+          <img src="https://placehold.co/88x88/C7BFAE/C7BFAE" alt="" class="h-11 w-11 flex-none rounded-full object-cover">
+          <span class="min-w-0">
+            <span class="block font-medium">John Kennings</span>
+            <span class="u-label block text-graphite/60">Partner · Johnson &amp; Partners</span>
+          </span>
+          <span class="chev ml-auto grid h-9 w-9 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="acc-body u-body max-w-measure pb-6 pl-[3.75rem]">
+          "What I remember is being able to ask a stupid question at any point and getting a
+          straight answer back. No jargon, no upsell. Rare."
+        </p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FAQ ============================ -->
+<!-- The one section the company is literally named after. -->
+<section id="pricing" class="px-6 py-20 lg:py-28">
+  <div class="mx-auto max-w-shell">
+    <div class="rise mx-auto max-w-2xl text-center">
+      <p class="eyebrow u-label">FAQ</p>
+      <h2 class="u-display u-h2 mt-6">Most asked questions<span class="stop">.</span></h2>
+      <p class="u-body mt-5">
+        It's the name, so we may as well answer them here. Anything missing — just ask.
+      </p>
+    </div>
+
+    <div class="mx-auto mt-14 max-w-3xl space-y-3">
+
+      <details class="card rise px-6" open>
+        <summary class="flex items-center gap-5 py-5">
+          <span class="u-label flex-none text-accent">01</span>
+          <span class="font-medium">What does a project cost?</span>
+          <span class="chev ml-auto grid h-8 w-8 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="acc-body u-body max-w-measure pb-6 pl-12">
+          Most sites land between £6k and £20k; MVPs and automation work are scoped per project.
+          You get a fixed number before we start, not a rate card and a surprise.
+        </p>
+      </details>
+
+      <details class="card rise px-6">
+        <summary class="flex items-center gap-5 py-5">
+          <span class="u-label flex-none text-accent">02</span>
+          <span class="font-medium">How long until something is live?</span>
+          <span class="chev ml-auto grid h-8 w-8 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="acc-body u-body max-w-measure pb-6 pl-12">
+          A plan within a week of your first message. A working site in three to six weeks.
+          MVPs usually take six to ten, depending on how much of it is genuinely new.
+        </p>
+      </details>
+
+      <details class="card rise px-6">
+        <summary class="flex items-center gap-5 py-5">
+          <span class="u-label flex-none text-accent">03</span>
+          <span class="font-medium">Who will I actually be talking to?</span>
+          <span class="chev ml-auto grid h-8 w-8 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="acc-body u-body max-w-measure pb-6 pl-12">
+          The people building it. A.M.A is small on purpose — there's no account manager
+          between you and the work.
+        </p>
+      </details>
+
+      <details class="card rise px-6">
+        <summary class="flex items-center gap-5 py-5">
+          <span class="u-label flex-none text-accent">04</span>
+          <span class="font-medium">Can you work with our existing team?</span>
+          <span class="chev ml-auto grid h-8 w-8 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="acc-body u-body max-w-measure pb-6 pl-12">
+          Often. We'll take the part nobody has time for, work in your stack and your repo,
+          and hand it back documented.
+        </p>
+      </details>
+
+      <details class="card rise px-6">
+        <summary class="flex items-center gap-5 py-5">
+          <span class="u-label flex-none text-accent">05</span>
+          <span class="font-medium">What happens after launch?</span>
+          <span class="chev ml-auto grid h-8 w-8 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="acc-body u-body max-w-measure pb-6 pl-12">
+          Thirty days of fixes are included. After that, keep us on a small monthly retainer
+          or take the keys and run it yourself — both are fine.
+        </p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CTA ============================ -->
+<section id="contact" class="px-6 pb-20 lg:pb-28">
+  <div class="mx-auto max-w-shell">
+    <div class="grain rise-far relative overflow-hidden rounded-[32px] bg-blush px-6 py-24 text-center lg:py-32">
+      <!-- Faint bloom, matching the pattern the template lays over its pink panel -->
+      <div class="pointer-events-none absolute inset-0" style="background:
+          radial-gradient(620px 340px at 50% 6%, rgba(252,54,45,.10), transparent 70%),
+          radial-gradient(520px 300px at 10% 100%, rgba(255,255,255,.55), transparent 72%);"></div>
+
+      <div class="relative">
+        <p class="u-label text-ink/55">Contact us</p>
+        <h2 class="u-display mt-6 text-[clamp(2.25rem,5.2vw,4rem)] font-extrabold leading-[1.05] tracking-[-.035em] text-ink">
+          So — what can we<br>build for you?
+        </h2>
+        <p class="u-body mx-auto mt-7 max-w-[42ch]">
+          Send the problem, however messy. We'll send back a plan.
+        </p>
+        <a href="mailto:hello@askme.ama" class="btn btn-accent mt-10">hello@askme.ama <span class="arw" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="border-t border-[color:var(--rule)] px-6 pt-16">
+  <div class="mx-auto max-w-shell">
+    <div class="grid gap-12 pb-14 lg:grid-cols-[1.4fr_1fr_1fr]">
+
+      <div>
+        <img src="assets/logo-badge.png" alt="A.M.A" class="h-10 w-auto rounded-lg" width="321" height="172">
+        <p class="u-body mt-5 max-w-[38ch]">
+          A small studio for web design, AI automation, MVPs and apps.
+          An invitation, always open.
+        </p>
+        <p class="u-label mt-6 text-graphite/60">hello@askme.ama · +1 415 555 0132</p>
+      </div>
+
+      <nav aria-label="Studio">
+        <h2 class="u-label text-graphite/60">Studio</h2>
+        <ul class="mt-5 space-y-3.5 text-[.9375rem]">
+          <li><a href="#services" class="footlink">Services</a></li>
+          <li><a href="#about"    class="footlink">About us</a></li>
+          <li><a href="#work"     class="footlink">Projects</a></li>
+          <li><a href="#pricing"  class="footlink">Pricing</a></li>
+          <li><a href="#contact"  class="footlink">Contact us</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-label="Elsewhere">
+        <h2 class="u-label text-graphite/60">Elsewhere</h2>
+        <ul class="mt-5 max-w-[15rem] space-y-3.5 text-[.9375rem]">
+          <li><a href="#" class="sociallink flex items-center justify-between gap-3">Facebook  <span class="badge" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li>
+          <li><a href="#" class="sociallink flex items-center justify-between gap-3">Instagram <span class="badge" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li>
+          <li><a href="#" class="sociallink flex items-center justify-between gap-3">Twitter/X <span class="badge" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li>
+          <li><a href="#" class="sociallink flex items-center justify-between gap-3">LinkedIn  <span class="badge" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="rule-dot"><i></i></div>
+
+    <div class="flex flex-wrap items-center justify-between gap-4 py-7">
+      <p class="u-label text-graphite/60">© 2026 A.M.A · Ask Me Anything</p>
+      <p class="u-label text-graphite/60">/n. an invitation, always open<span class="stop">.</span></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+
+  // Single orchestrated reveal, staggered per section.
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (!entry.isIntersecting) return;
+      entry.target.style.transitionDelay = `${Math.min(i * 70, 280)}ms`;
+      entry.target.classList.add('seen');
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+
+  document.querySelectorAll('.rise, .rise-far').forEach((el) => io.observe(el));
+
+  // Phone menu
+  const menuBtn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+
+  const setMenu = (open) => {
+    menu.hidden = !open;
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  };
+
+  menuBtn.addEventListener('click', () => setMenu(menu.hidden));
+  menu.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !menu.hidden) { setMenu(false); menuBtn.focus(); }
+  });
+  // Leaving phone width with the menu open would strand it open on desktop.
+  matchMedia('(min-width: 1024px)').addEventListener('change', (e) => e.matches && setMenu(false));
+</script>
+
+</body>
+</html>
