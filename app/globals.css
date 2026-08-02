@@ -1,26 +1,293 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ---- Design tokens ---------------------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: #1a1614;
+  --color-accent: #fc362d;
+  --color-page: #ffffff;
+  --color-blush: #fad6d4;
+  --color-paper: #f5efe6;
+  --color-linen: #c7bfae;
+  --color-graphite: #3d3934;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+
+  --container-shell: 1200px;
+  --container-measure: 70ch;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --ink: #1a1614;
+  --accent: #fc362d;
+  --page: #ffffff;
+  --blush: #fad6d4;
+  --linen: #c7bfae;
+  --text-body: #333333;
+
+  /* Depth: base -> elevated -> floating. Shadows tinted with Ink, never grey. */
+  --lift-1: 0 1px 2px rgb(26 22 20 / 0.05), 0 2px 8px -2px rgb(26 22 20 / 0.06);
+  --lift-2: 0 1px 2px rgb(26 22 20 / 0.05), 0 10px 28px -12px rgb(26 22 20 / 0.14);
+  --lift-3: 0 2px 4px rgb(26 22 20 / 0.06), 0 22px 50px -18px rgb(26 22 20 / 0.24);
+  --lift-accent: 0 1px 2px rgb(26 22 20 / 0.1), 0 14px 32px -14px rgb(252 54 45 / 0.42);
+
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Measured off the template: ~450ms reveal on an ease-out cubic. */
+  --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --reveal: 450ms;
+  --rule: rgb(26 22 20 / 0.12);
+
+  /* Clears the sticky header so pinned service cards sit below it. */
+  --stack-top: 104px;
 }
+
+/* Everything below sits in the components layer so Tailwind utilities can
+   override it. Unlayered CSS outranks every layer, which would otherwise make
+   `hidden` lose to `.btn`'s own `display` and leak the desktop CTA onto phones. */
+@layer components {
+
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--page);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Type -------------------------------------------------------------
+   Template pairing: Inter Tight for headings, Inter for text and UI.
+   Weight rhythm follows the template — heavy hero, medium section heads. */
+.u-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+.u-h1 { font-size: clamp(2.75rem, 5.6vw, 4.5rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.04; }
+.u-h2 { font-size: clamp(2rem, 3.6vw, 3rem);      font-weight: 600; letter-spacing: -0.03em;  line-height: 1.1; }
+.u-h3 { font-size: clamp(1.25rem, 1.8vw, 1.5rem); font-weight: 600; letter-spacing: -0.02em;  line-height: 1.25; }
+
+/* Body copy, matched to the template: 16px / 26px, -0.2px, neutral grey. */
+.u-body {
+  font-size: 1rem;
+  line-height: 1.625;
+  letter-spacing: -0.0125em;
+  color: var(--text-body);
+}
+
+/* Section labels and metadata — uppercase Inter, tracked out. */
+.u-label {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ---- Signature: the load-bearing full stop -----------------------------
+   The brand's stops "do the work of a pause". They recur as an accent dot:
+   eyebrows, section rules, headline terminals, accordion markers. */
+.stop { color: var(--accent); }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px 7px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: var(--lift-1);
+}
+.eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  flex: none;
+}
+
+.rule-dot { display: flex; align-items: center; gap: 16px; color: var(--rule); }
+.rule-dot::before,
+.rule-dot::after { content: ""; height: 1px; background: var(--rule); flex: 1; }
+.rule-dot > i { width: 6px; height: 6px; border-radius: 999px; background: var(--accent); flex: none; }
+
+/* ---- Surfaces ---------------------------------------------------------- */
+.card {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 20px;
+  box-shadow: var(--lift-1);
+}
+/* No hover state: the template's FAQ and testimonial rows are inert. */
+
+/* ---- Services: sticky card deck ---------------------------------------
+   The template pins each card 20px lower than the one before, so they
+   gather into a stack as you scroll and the next slides over the last.
+   Cards must stay opaque, and each must paint over the one before or a
+   later card slides underneath the deck instead of covering it. */
+.stack > li { position: sticky; }
+.stack > li:nth-child(1) { top: var(--stack-top);              z-index: 1; }
+.stack > li:nth-child(2) { top: calc(var(--stack-top) + 20px); z-index: 2; }
+.stack > li:nth-child(3) { top: calc(var(--stack-top) + 40px); z-index: 3; }
+/* The last card stays in flow and rides up over the deck — the template
+   does the same. Pinning it too would clamp the whole stack against the
+   container's content box and collapse the 20px reveals. */
+.stack > li:last-child { position: relative; z-index: 4; }
+
+@media (max-width: 1023px) {
+  /* Stacking needs the tall scroll run of the two-column layout. */
+  .stack > li { position: static; }
+}
+
+/* Grain — keeps flat surfaces from reading as dead white. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- Images: gradient overlay + colour treatment ----------------------- */
+.shot { position: relative; overflow: hidden; border-radius: 20px; background: var(--linen); }
+.shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Project cards zoom their image rather than lifting the card. */
+  transition: transform 0.5s var(--ease-out);
+}
+.shot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(to top, rgb(26 22 20 / 0.6), rgb(26 22 20 / 0) 62%);
+}
+.shot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: var(--accent);
+  mix-blend-mode: multiply;
+  opacity: 0.06;
+}
+.group:hover .shot img { transform: scale(1.2); }
+
+/* ---- Buttons ----------------------------------------------------------
+   The template swaps fills rather than lifting — red goes to ink on
+   hover, and there is no translate on any button. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1;
+  transition: background-color 0.3s var(--ease-out), color 0.3s var(--ease-out),
+    border-color 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out),
+    transform 0.2s var(--ease-out);
+}
+.btn:active { transform: scale(0.985); }
+.btn-ink { background: var(--ink); color: #fff; box-shadow: var(--lift-2); }
+.btn-ink:hover { background: var(--accent); box-shadow: var(--lift-accent); }
+.btn-accent { background: var(--accent); color: #fff; box-shadow: var(--lift-accent); }
+.btn-accent:hover { background: var(--ink); box-shadow: var(--lift-2); }
+.btn-ghost { border: 1px solid var(--rule); color: var(--ink); }
+.btn-ghost:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn .arw { transition: transform 0.3s var(--ease-out); }
+.btn:hover .arw { transform: translateX(3px); }
+
+/* Nav links fill into a red pill, text going white. */
+.navlink {
+  border-radius: 999px;
+  padding: 7px 15px;
+  transition: background-color 0.3s var(--ease-out), color 0.3s var(--ease-out);
+}
+.navlink:hover,
+.navlink[aria-current="page"] { background: var(--accent); color: #fff; }
+
+/* Footer links just take the accent colour — no pill. */
+.footlink { transition: color 0.3s var(--ease-out); }
+.footlink:hover,
+.footlink[aria-current="page"] { color: var(--accent); }
+
+/* Social rows: label goes red and the square badge rotates 45deg. */
+.sociallink { transition: color 0.3s var(--ease-out); }
+.sociallink:hover { color: var(--accent); }
+.sociallink .badge {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--ink);
+  color: #fff;
+  flex: none;
+  transition: transform 0.3s var(--ease-out), background-color 0.3s var(--ease-out);
+}
+.sociallink:hover .badge { transform: rotate(45deg); background: var(--accent); }
+
+:where(a, button, summary, input, textarea):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ---- Phone menu -------------------------------------------------------- */
+.menu-btn .icon-close { display: none; }
+.menu-btn[aria-expanded="true"] .icon-open { display: none; }
+.menu-btn[aria-expanded="true"] .icon-close { display: block; }
+.mobile-menu { animation: unfold 0.3s var(--ease-out) both; }
+
+/* ---- Accordions -------------------------------------------------------- */
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+.chev { transition: transform 0.4s var(--ease-spring); }
+details[open] .chev { transform: rotate(45deg); }
+.acc-body { animation: unfold 0.45s var(--ease-spring) both; }
+
+@keyframes unfold {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---- Entrance ---------------------------------------------------------
+   Matches the template: opacity 0 -> 1 with a short lift for text and a
+   long one for large blocks, ~450ms on an ease-out cubic. Transform and
+   opacity only, so it stays on the compositor. Gated on the `js` class
+   set before paint — without JS the page still reads fully. */
+.js .rise { opacity: 0; transform: translateY(20px); }
+.js .rise-far { opacity: 0; transform: translateY(150px); }
+.js .rise,
+.js .rise-far { will-change: transform, opacity; }
+.js .rise.seen,
+.js .rise-far.seen {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+  transition: opacity var(--reveal) var(--ease-out), transform var(--reveal) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .js .rise,
+  .js .rise-far { opacity: 1; transform: none; }
+}
 }
