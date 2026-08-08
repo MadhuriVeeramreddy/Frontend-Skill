@@ -53,7 +53,7 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
 
           <Shot
             src={project.image}
-            alt={`${project.name} — ${project.discipline}`}
+            alt={`${project.name} . ${project.discipline}`}
             className="rise-far mt-12 aspect-[16/9]"
           />
 

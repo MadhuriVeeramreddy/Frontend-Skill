@@ -12,9 +12,22 @@
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-hand: var(--font-caveat), 'Caveat', cursive;
 
   --container-shell: 1200px;
   --container-measure: 70ch;
+}
+
+.font-handwritten {
+  font-family: var(--font-caveat), 'Caveat', cursive;
+}
+
+.doodle-underline {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3,15 Q50,5 100,14 T197,10' fill='none' stroke='%23FC362D' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 12px;
+  padding-bottom: 4px;
 }
 
 :root {
@@ -152,7 +165,7 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* ---- Images: gradient overlay + colour treatment ----------------------- */
+/* ---- Images: clean presentation --------------------------------------- */
 .shot { position: relative; overflow: hidden; border-radius: 20px; background: var(--linen); }
 .shot img {
   display: block;
@@ -162,25 +175,7 @@ body {
   /* Project cards zoom their image rather than lifting the card. */
   transition: transform 0.5s var(--ease-out);
 }
-.shot::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: linear-gradient(to top, rgb(26 22 20 / 0.6), rgb(26 22 20 / 0) 62%);
-}
-.shot::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: var(--accent);
-  mix-blend-mode: multiply;
-  opacity: 0.06;
-}
-.group:hover .shot img { transform: scale(1.2); }
+.group:hover .shot img { transform: scale(1.05); }
 
 /* ---- Buttons ----------------------------------------------------------
    The template swaps fills rather than lifting — red goes to ink on

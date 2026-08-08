@@ -9,10 +9,10 @@
 
 export const site = {
   name: "A.M.A",
-  tagline: "Ask us anything — we'll build it.",
+  tagline: "Ask us anything. We'll build it.",
   description:
     "A small studio for web design, AI automation, MVPs and apps. Send the problem; we send a plan.",
-  email: "hello@askme.ama",
+  email: "ama.responds@gmail.com",
   phone: "+1 415 555 0132",
 } as const;
 
@@ -32,10 +32,8 @@ export const footerNav = [
 ] as const;
 
 export const social = [
-  { href: "#", label: "Facebook" },
-  { href: "#", label: "Instagram" },
-  { href: "#", label: "Twitter/X" },
-  { href: "#", label: "LinkedIn" },
+  { href: "https://www.instagram.com/ama.responds", label: "Instagram" },
+  { href: "mailto:ama.responds@gmail.com", label: "Email" },
 ] as const;
 
 export type Service = {
@@ -69,7 +67,7 @@ export const services: Service[] = [
     slug: "mvps-and-apps",
     title: "MVPs & apps",
     blurb:
-      "The smallest version that proves the idea, live in weeks — not the full thing in a year.",
+      "The smallest version that proves the idea, live in weeks, not the full thing in a year.",
     detail:
       "We argue for the smallest build that answers your riskiest question. You get something real in front of users while the idea is still cheap to change.",
     icon: "bolt",
@@ -80,7 +78,7 @@ export const services: Service[] = [
     blurb:
       "A name, a mark, and a voice that still fit once the company has grown into them.",
     detail:
-      "Naming, wordmark, palette, and a written voice, delivered as a short book your team can actually follow — not a 90-page PDF nobody opens twice.",
+      "Naming, wordmark, palette, and a written voice, delivered as a short book your team can actually follow, not a 90-page PDF nobody opens twice.",
     icon: "globe",
   },
 ];
@@ -99,56 +97,69 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: "greenleaf",
-    name: "Greenleaf",
-    discipline: "Brand · Web",
-    year: "2025",
-    summary: "A garden supplier that had outgrown its own name.",
+    slug: "dental-clinic-app",
+    name: "Dental Clinic Management App",
+    discipline: "Healthcare Tech · App",
+    year: "2026",
+    summary: "Multi-doctor scheduling, interactive tooth charting & automated patient intake.",
     challenge:
-      "Greenleaf sold to landscapers and homeowners from the same catalogue, and neither group felt spoken to.",
+      "A growing dental practice struggled with manual paper charts, fragmented doctor schedules, and high missed-appointment rates.",
     approach:
-      "We split the site by who was buying, not by what was in the warehouse, and rebuilt the mark to work at 16px.",
-    outcome: "Trade enquiries up, and a catalogue their own team can update.",
-    image: "https://placehold.co/1200x900",
+      "We engineered a clean HIPAA-compliant clinic management portal with interactive visual tooth charts, single-click scheduling, and SMS reminders.",
+    outcome: "Patient intake time reduced by 65%, and missed appointments dropped by 40%.",
+    image: "/assets/dental-app.png",
   },
   {
-    slug: "sunrise-resort",
-    name: "Sunrise Resort",
-    discipline: "Web · Booking",
-    year: "2025",
-    summary: "A booking flow that stopped losing people at step three.",
-    challenge:
-      "Guests were dropping out at the date picker, and the team had no way to see where.",
-    approach:
-      "We rewrote the flow as three plain questions and instrumented every step.",
-    outcome: "The drop-off moved from step three to nowhere in particular.",
-    image: "https://placehold.co/1200x900",
-  },
-  {
-    slug: "johnson-partners",
-    name: "Johnson & Partners",
+    slug: "fitness-whatsapp-bot",
+    name: "WhatsApp Fitness Trainer Bot",
     discipline: "AI · Automation",
-    year: "2024",
-    summary: "Six hours a week of intake, handled quietly.",
+    year: "2026",
+    summary: "Automated workout delivery, nutrition tracking & client check-ins via WhatsApp API.",
     challenge:
-      "Every new client enquiry was retyped by hand into three separate systems.",
+      "Fitness trainers spent 15+ hours every week manually messaging clients workout plans and tracking meal logs across spreadsheets.",
     approach:
-      "One intake form, one extraction step, three systems updated. Nobody had to be trained on it.",
-    outcome: "About six hours a week back, with a clean audit trail.",
-    image: "https://placehold.co/1200x900",
+      "We built an intelligent WhatsApp AI bot that automatically delivers daily routines, parses meal photos into macro estimates, and generates progress charts.",
+    outcome: "Saved trainers 12+ hours per week while boosting client retention by 35%.",
+    image: "/assets/fitness-bot.png",
   },
   {
-    slug: "sweet-delights",
-    name: "Sweet Delights",
-    discipline: "MVP · App",
-    year: "2024",
-    summary: "Half the feature list, live in five weeks.",
+    slug: "nfc-card-platform",
+    name: "NFC Smart Card & Profile Suite",
+    discipline: "Hardware & Web · Platform",
+    year: "2026",
+    summary: "Tap-to-connect physical NFC business & social cards with dynamic web profile management.",
     challenge:
-      "A bakery wanted a full ordering platform before knowing whether anyone would order online.",
+      "Corporate clients like Victory Hotels needed sleek, re-programmable NFC cards for executive networking without app downloads.",
     approach:
-      "We cut the list to one thing — pre-order for collection — and shipped it.",
-    outcome: "Launched in five weeks. Nothing that got cut has been missed.",
-    image: "https://placehold.co/1200x900",
+      "We designed laser-engraved NFC matte cards paired with a real-time web profile editor that exports instant vCards on any smartphone tap.",
+    outcome: "Deployed across executive hotel teams with 100% tap compatibility and zero app requirement.",
+    image: "/assets/nfc-cards.png",
+  },
+  {
+    slug: "webar-showcase",
+    name: "WebAR Spatial Product Experience",
+    discipline: "AR & Spatial · 3D Web",
+    year: "2025",
+    summary: "Browser-native 3D & Augmented Reality product preview platform.",
+    challenge:
+      "E-commerce customers needed to visualize custom physical products in their actual room space before placing high-ticket orders.",
+    approach:
+      "We built a WebXR-powered 3D viewer using Three.js allowing users to project interactive 1:1 scale models onto any surface directly in Safari and Chrome.",
+    outcome: "Increased product page conversion rates by 48% and reduced return rates.",
+    image: "/assets/ar-showcase.png",
+  },
+  {
+    slug: "clinic-website",
+    name: "Healthcare Clinic Website",
+    discipline: "Web Design · Portal",
+    year: "2025",
+    summary: "High-converting medical clinic site with online patient triage & doctor booking.",
+    challenge:
+      "A multi-specialty clinic had an outdated website that failed on mobile devices and forced patients to call for every booking.",
+    approach:
+      "We crafted a mobile-first, blazing-fast web portal with instant online doctor scheduling, service catalogs, and emergency triage notes.",
+    outcome: "Online appointment bookings grew 3x within 30 days of launch.",
+    image: "/assets/clinic-website.png",
   },
 ];
 
@@ -160,28 +171,16 @@ export type Testimonial = {
 
 export const testimonials: Testimonial[] = [
   {
-    name: "Alec Ramírez",
-    role: "Founder · Greenleaf",
+    name: "Surya Teja",
+    role: "Founder · Prodontics",
     quote:
-      "I sent them a messy problem on a Tuesday and had a plan on Friday, exactly like they said. The first version was smaller than I expected — and that turned out to be the point.",
+      "I sent them a messy problem on a Tuesday and had a plan on Friday, exactly like they said. The clinic management system and multi-doctor schedule were live in weeks.",
   },
   {
-    name: "Sofia Lee",
-    role: "Operations · Halcyon",
+    name: "Vittal Jadhav",
+    role: "Corporate General Manager · Victory Hotels",
     quote:
-      "The automation they built quietly removed about six hours a week from my team. Nobody had to be trained on it, which I think is the highest compliment I can give.",
-  },
-  {
-    name: "Lucca Rossi",
-    role: "Founder · Sweet Delights",
-    quote:
-      "They talked me out of half my feature list in the first call. We launched in five weeks and I have never once missed the things we cut.",
-  },
-  {
-    name: "John Kennings",
-    role: "Partner · Johnson & Partners",
-    quote:
-      "What I remember is being able to ask a stupid question at any point and getting a straight answer back. No jargon, no upsell. Rare.",
+      "The custom tap-to-connect NFC cards and web profile suite were built fast with zero friction. Our executive team uses them daily for networking.",
   },
 ];
 
@@ -190,7 +189,11 @@ export type Faq = { q: string; a: string };
 export const faqs: Faq[] = [
   {
     q: "What does a project cost?",
-    a: "Most sites land between £6k and £20k; MVPs and automation work are scoped per project. You get a fixed number before we start, not a rate card and a surprise.",
+    a: "Every project is unique. We evaluate your requirements and offer the best, most competitive rates upfront. You get a transparent, fixed quote before we start — no rate cards and zero surprises.",
+  },
+  {
+    q: "Where is A.M.A based?",
+    a: "We are a proud Make in India 🇮🇳 software studio based in India. We engineer world-class web applications, AI bots, and custom digital products for businesses in India and globally.",
   },
   {
     q: "How long until something is live?",
@@ -198,7 +201,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Who will I actually be talking to?",
-    a: "The people building it. A.M.A is small on purpose — there's no account manager between you and the work.",
+    a: "The engineers building it. A.M.A is small on purpose; there's no account manager between you and the work.",
   },
   {
     q: "Can you work with our existing team?",
@@ -206,7 +209,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "What happens after launch?",
-    a: "Thirty days of fixes are included. After that, keep us on a small monthly retainer or take the keys and run it yourself — both are fine.",
+    a: "Thirty days of fixes are included. After that, keep us on a small monthly retainer or take the keys and run it yourself. Both are fine.",
   },
 ];
 
@@ -242,25 +245,23 @@ export const notes: Note[] = [
 ];
 
 export const stats = [
-  { value: "40", suffix: "+", label: "Projects shipped" },
-  { value: "6", suffix: "+", label: "Years building" },
-  { value: "94", suffix: "%", label: "Clients who return" },
+  { value: "4", suffix: "+", label: "Projects shipped" },
+  { value: "1", suffix: "+", label: "Years building together" },
+  { value: "4", suffix: "+", label: "Years avg industry experience" },
+  { value: "100", suffix: "%", label: "Direct engineer access" },
+  { value: "0", suffix: "%", label: "Agency drama" },
 ] as const;
 
 export const clients = [
-  "Northwind",
-  "LOOPWORK",
-  "Ipsum & Co",
-  "Meridian",
-  "HALCYON",
-  "Fieldnote",
-  "Otter",
+  "Prodontics",
+  "Dental Planet",
+  "Victory Hotels",
 ] as const;
 
 export const pricing = [
   {
     name: "Site",
-    price: "from £6k",
+    price: "custom scoped",
     line: "A marketing site that earns its keep.",
     includes: [
       "Up to 8 pages, designed against real copy",
@@ -271,7 +272,7 @@ export const pricing = [
   },
   {
     name: "MVP",
-    price: "from £18k",
+    price: "custom scoped",
     line: "The smallest build that answers your riskiest question.",
     includes: [
       "Scoping week to cut the list down",

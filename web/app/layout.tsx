@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Inter_Tight } from "next/font/google";
+import { Caveat, Inter, Inter_Tight } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
@@ -19,9 +19,15 @@ const interTight = Inter_Tight({
   display: "swap",
 });
 
+const caveat = Caveat({
+  subsets: ["latin"],
+  variable: "--font-caveat",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
-    default: `${site.name} — ${site.tagline}`,
+    default: `${site.name} . ${site.tagline}`,
     template: `%s · ${site.name}`,
   },
   description: site.description,
@@ -39,7 +45,7 @@ export default function RootLayout({
     // only — one level deep — so it can't mask a mismatch anywhere else.
     <html
       lang="en"
-      className={`${inter.variable} ${interTight.variable}`}
+      className={`${inter.variable} ${interTight.variable} ${caveat.variable}`}
       suppressHydrationWarning
     >
       <head>

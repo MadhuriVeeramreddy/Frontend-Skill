@@ -1,123 +1,113 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import PageHero from "@/components/PageHero";
-import { Arrow } from "@/components/ui";
+import { Arrow, Button } from "@/components/ui";
 import { site } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Send the problem, however messy. We'll send back a plan.",
-};
-
 export default function ContactPage() {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(site.email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
   return (
     <>
       <PageHero
         eyebrow="Contact us"
         title={
           <>
-            So — what can we
+            So, what can we
             <br />
             build for you<span className="stop">?</span>
           </>
         }
       >
-        Send the problem, however messy. We&apos;ll send back a plan — usually
-        within a week, often sooner.
+        Send us an email or drop a message on Instagram. We read everything that comes in and reply fast with a plan.
       </PageHero>
 
       <section className="px-6 py-20 lg:py-28">
-        <div className="mx-auto grid max-w-shell gap-12 lg:grid-cols-[1fr_.8fr] lg:gap-20">
-          {/*
-            Netlify Forms: the data-netlify attribute plus the hidden form-name
-            field is all the wiring this needs — no backend, no API route.
-          */}
-          <form
-            name="enquiry"
-            method="POST"
-            data-netlify="true"
-            netlify-honeypot="bot-field"
-            className="rise"
-          >
-            <input type="hidden" name="form-name" value="enquiry" />
-            <p className="hidden">
-              <label>
-                Leave this empty: <input name="bot-field" />
-              </label>
-            </p>
+        <div className="mx-auto grid max-w-shell gap-10 md:grid-cols-2 lg:gap-16">
+          {/* Main Direct Email Card */}
+          <div className="card rise p-8 md:p-10 flex flex-col justify-between bg-paper border-[color:var(--rule)]">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-accent/10 px-3.5 py-1 text-xs font-bold text-accent">
+                ✉️ Direct Mail
+              </div>
+              <h2 className="u-display text-3xl font-extrabold mt-6">
+                Send the problem directly<span className="stop">.</span>
+              </h2>
+              <p className="u-body mt-4">
+                No forms or middle layers. Click below to launch your email app pre-addressed to our team. Describe your idea or problem, however messy.
+              </p>
 
-            <div className="grid gap-5 sm:grid-cols-2">
-              <label className="block">
-                <span className="u-label text-graphite/60">Your name</span>
-                <input
-                  required
-                  name="name"
-                  autoComplete="name"
-                  className="mt-2 w-full rounded-xl border border-[color:var(--rule)] px-4 py-3 text-base outline-none"
-                />
-              </label>
-              <label className="block">
-                <span className="u-label text-graphite/60">Email</span>
-                <input
-                  required
-                  type="email"
-                  name="email"
-                  autoComplete="email"
-                  className="mt-2 w-full rounded-xl border border-[color:var(--rule)] px-4 py-3 text-base outline-none"
-                />
-              </label>
+              <div className="mt-8">
+                <a
+                  href={`mailto:${site.email}`}
+                  className="u-display text-2xl md:text-3xl font-bold text-ink hover:text-accent transition-colors block break-all"
+                >
+                  {site.email}
+                </a>
+              </div>
             </div>
 
-            <label className="mt-5 block">
-              <span className="u-label text-graphite/60">
-                What are you trying to do?
-              </span>
-              <textarea
-                required
-                name="problem"
-                rows={6}
-                placeholder="However messy is fine."
-                className="mt-2 w-full rounded-xl border border-[color:var(--rule)] px-4 py-3 text-base outline-none"
-              />
-            </label>
+            <div className="mt-10 flex flex-wrap items-center gap-4 pt-6 border-t border-[color:var(--rule)]">
+              <Button href={`mailto:${site.email}`}>
+                Open Email App <Arrow />
+              </Button>
+              <button
+                type="button"
+                onClick={handleCopy}
+                className="btn btn-ghost text-sm"
+              >
+                {copied ? "Copied! ✓" : "Copy email address"}
+              </button>
+            </div>
+          </div>
 
-            <button type="submit" className="btn btn-accent mt-7">
-              Send the problem <Arrow />
-            </button>
-          </form>
-
-          <aside className="rise">
-            <h2 className="u-display u-h3">
-              Or just email us<span className="stop">.</span>
-            </h2>
-            <p className="u-body mt-4">
-              No form required. We read everything that comes in, and you get a
-              human reply.
-            </p>
-            <p className="mt-6">
-              <a href={`mailto:${site.email}`} className="footlink u-display text-[1.375rem]">
-                {site.email}
+          {/* Secondary Info & Instagram Card */}
+          <div className="space-y-6 rise-far">
+            {/* Instagram Card */}
+            <div className="card p-8 bg-white border-[color:var(--rule)]">
+              <div className="inline-flex items-center gap-2 rounded-full bg-pink-100 px-3 py-1 text-xs font-bold text-pink-700">
+                📸 Instagram DMs
+              </div>
+              <h3 className="u-display text-xl font-bold mt-4">Prefer Instagram?</h3>
+              <p className="u-body text-sm mt-2">
+                Send us a direct message on Instagram. We check DMs daily.
+              </p>
+              <a
+                href="https://www.instagram.com/ama.responds"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex items-center gap-2 font-semibold text-accent hover:underline"
+              >
+                @ama.responds <Arrow />
               </a>
-            </p>
-            <p className="u-label mt-3 text-graphite/60">{site.phone}</p>
+            </div>
 
-            <div className="card mt-10 p-6">
+            {/* What Happens Next Card */}
+            <div className="card p-8 bg-white border-[color:var(--rule)]">
               <h3 className="u-label text-graphite/60">What happens next</h3>
-              <ol className="mt-4 space-y-3">
+              <ol className="mt-4 space-y-4">
                 {[
-                  "We read it and ask anything that's unclear.",
-                  "You get a plan with a fixed number, usually within a week.",
+                  "We read your email and ask anything that's unclear.",
+                  "You get a transparent plan and quote, usually within a few days.",
                   "If it fits, we start. If it doesn't, we'll say so.",
                 ].map((step, i) => (
-                  <li key={step} className="u-body flex gap-3">
-                    <span className="u-label flex-none pt-1 text-accent">
+                  <li key={step} className="u-body text-sm flex gap-3">
+                    <span className="u-label flex-none pt-0.5 text-accent font-bold">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    {step}
+                    <span>{step}</span>
                   </li>
                 ))}
               </ol>
             </div>
-          </aside>
+          </div>
         </div>
       </section>
     </>

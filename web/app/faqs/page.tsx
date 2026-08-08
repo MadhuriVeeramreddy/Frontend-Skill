@@ -21,8 +21,8 @@ export default function FaqsPage() {
           </>
         }
       >
-        It&apos;s the name, so we may as well answer them here. Anything missing
-        — just ask.
+        It&apos;s the name, so we may as well answer them here. Anything missing,
+        just ask.
       </PageHero>
 
       <FaqSection heading={false} />

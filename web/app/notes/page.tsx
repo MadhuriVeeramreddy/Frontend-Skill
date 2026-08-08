@@ -28,7 +28,7 @@ export default function NotesPage() {
           </>
         }
       >
-        Short pieces on how we work — mostly arguments we&apos;ve had with
+        Short pieces on how we work, mostly arguments we&apos;ve had with
         ourselves and settled.
       </PageHero>
 

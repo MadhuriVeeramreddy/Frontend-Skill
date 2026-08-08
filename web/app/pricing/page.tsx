@@ -23,7 +23,7 @@ export default function PricingPage() {
           </>
         }
       >
-        You get a fixed price once we understand the problem — not a day rate
+        You get a fixed price once we understand the problem, not a day rate
         and a surprise at the end. These are the ranges most projects land in.
       </PageHero>
 

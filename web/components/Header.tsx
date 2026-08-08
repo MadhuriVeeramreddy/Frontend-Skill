@@ -37,11 +37,11 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-[color:var(--rule)] bg-white/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-shell items-center gap-6 px-6 py-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
-        {/* Clear space (cap-height of the A) is enforced here, not baked into the file */}
+      <div className="mx-auto flex max-w-shell items-center justify-between gap-6 px-6 py-3.5 lg:grid lg:grid-cols-[200px_1fr_auto]">
+        {/* Logo */}
         <Link
           href="/"
-          className="flex-none justify-self-start py-1 pr-2 transition-opacity duration-300 hover:opacity-80"
+          className="flex-none justify-self-start py-1 pr-2 flex items-center gap-3 transition-opacity duration-300 hover:opacity-80"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -53,8 +53,9 @@ export default function Header() {
           />
         </Link>
 
+        {/* Center Nav */}
         <nav
-          className="hidden items-center gap-2 text-[.9375rem] lg:flex"
+          className="hidden items-center justify-center gap-7 text-[.9375rem] font-medium lg:flex justify-self-center"
           aria-label="Primary"
         >
           {nav.map((item) => (
@@ -69,28 +70,8 @@ export default function Header() {
           ))}
         </nav>
 
+        {/* Right CTA */}
         <div className="ml-auto flex items-center gap-3 lg:ml-0 lg:justify-self-end">
-          {/* Search and the CTA are desktop-only; phones get the menu button. */}
-          <button
-            type="button"
-            aria-label="Search"
-            className="hidden h-10 w-10 place-items-center rounded-full border border-[color:var(--rule)] lg:grid"
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              aria-hidden="true"
-            >
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.5-3.5" />
-            </svg>
-          </button>
-
           <Link href="/contact" className="btn btn-ink hidden lg:inline-flex">
             Ask us anything{" "}
             <span className="arw" aria-hidden="true">

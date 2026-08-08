@@ -23,7 +23,7 @@ export default function ServicesPage() {
         }
       >
         Four things, done properly. If your problem sits between two of them,
-        that&apos;s usually the interesting one — ask anyway.
+        that&apos;s usually the interesting one, ask anyway.
       </PageHero>
 
       <section className="px-6 py-20 lg:py-28">

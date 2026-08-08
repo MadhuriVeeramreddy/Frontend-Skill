@@ -76,7 +76,7 @@ export function ServicesSection() {
             }
           >
             Four things, done properly. If your problem sits between two of
-            them, that&apos;s usually the interesting one — ask anyway.
+            them, that&apos;s usually the interesting one, ask anyway.
           </SectionHead>
           <Button href="/services" className="mt-8">
             Get started <Arrow />
@@ -99,14 +99,21 @@ export function ServicesSection() {
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="rise-far group">
+    <article className="rise-far group card p-5 hover:shadow-lg transition-all">
       <Link href={`/work/${project.slug}`} className="block">
         <Shot
           src={project.image}
-          alt={`${project.name} — ${project.discipline}`}
-          className="aspect-[4/3]"
+          alt={`${project.name} . ${project.discipline}`}
+          className="aspect-[4/3] rounded-xl overflow-hidden"
         />
-        <h3 className="u-display mt-4 text-[1.375rem]">{project.name}</h3>
+        <div className="mt-4">
+          <div className="flex items-center justify-between">
+            <span className="u-label text-accent font-bold">{project.discipline}</span>
+            <span className="text-xs font-mono text-graphite/60">{project.year}</span>
+          </div>
+          <h3 className="u-display mt-2 text-xl font-bold">{project.name}</h3>
+          <p className="u-body text-sm mt-2 text-graphite/80">{project.summary}</p>
+        </div>
       </Link>
     </article>
   );
@@ -118,18 +125,17 @@ export function WorkSection({ limit }: { limit?: number }) {
     <section id="work" className="px-6 py-20 lg:py-28">
       <div className="mx-auto max-w-shell">
         <SectionHead
-          eyebrow="Recent work"
+          eyebrow="Real Client Work"
           title={
             <>
-              Work we&apos;d show you first<span className="stop">.</span>
+              Projects we&apos;ve shipped<span className="stop">.</span>
             </>
           }
         >
-          Four we&apos;re glad to be judged on. Each one started as a question
-          and ended as something shipped.
+          From dental clinic management software to WhatsApp AI bots and tap-to-connect NFC business cards. Here is what we build.
         </SectionHead>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2">
+        <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {shown.map((p) => (
             <ProjectCard key={p.slug} project={p} />
           ))}
@@ -159,7 +165,7 @@ export function TestimonialsSection() {
             </>
           }
         >
-          We asked four clients what it was actually like. These are their
+          We asked our clients what it was actually like. These are their
           words, lightly trimmed.
         </SectionHead>
 
@@ -206,7 +212,7 @@ export function FaqSection({ heading = true }: { heading?: boolean }) {
             }
           >
             It&apos;s the name, so we may as well answer them here. Anything
-            missing — just ask.
+            missing, just ask.
           </SectionHead>
         ) : null}
 
@@ -233,8 +239,8 @@ export function TrustedStrip() {
   return (
     <section className="border-y border-[color:var(--rule)] py-10">
       <div className="mx-auto max-w-shell px-6">
-        <p className="u-label text-center text-graphite/60">
-          Trusted by 40+ teams around the globe
+        <p className="u-label text-center text-graphite/60 tracking-wider">
+          Teams who trusted us with their ideas
         </p>
         <ul className="mt-7 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 lg:justify-between">
           {clients.map((c) => (
@@ -265,7 +271,7 @@ export function CtaSection() {
           <div className="relative">
             <p className="u-label text-ink/55">Contact us</p>
             <h2 className="u-display mt-6 text-[clamp(2.25rem,5.2vw,4rem)] font-extrabold leading-[1.05] tracking-[-.035em] text-ink">
-              So — what can we
+              So, what can we
               <br />
               build for you?
             </h2>

@@ -21,11 +21,11 @@ const principles = [
   },
   {
     title: "Confident",
-    body: "We state the answer and skip the hedge. If we don't know, we say so — then find out.",
+    body: "We state the answer and skip the hedge. If we don't know, we say so, then find out.",
   },
   {
     title: "Playful",
-    body: "One good line beats a paragraph. A little wink — never a joke about the reader.",
+    body: "One good line beats a paragraph. A little wink, never a joke about the reader.",
   },
 ];
 
@@ -59,7 +59,7 @@ export default function AboutPage() {
             </h2>
             <p className="u-body mt-6 max-w-measure">
               Most agencies answer with a deck. We answer with a plan, then a
-              working thing you can click. You talk to the people building it —
+              working thing you can click. You talk to the people building it;
               no account layer, no handoff, no “per our last email”.
             </p>
             <p className="u-body mt-4 max-w-measure">
@@ -67,7 +67,7 @@ export default function AboutPage() {
               size. It means we take fewer projects and finish the ones we take.
             </p>
 
-            <dl className="mt-10 grid grid-cols-3 gap-6">
+            <dl className="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-6">
               {stats.map((s) => (
                 <div key={s.label} className="flex flex-col-reverse">
                   <dt className="u-label mt-3 text-graphite/60">{s.label}</dt>

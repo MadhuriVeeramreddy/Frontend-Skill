@@ -3,13 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A.M.A — Ask us anything, we'll build it.</title>
+<title>A.M.A . Ask us anything, we'll build it.</title>
 <meta name="description" content="A small studio for web design, AI automation, MVPs and apps. Send the problem; we send a plan.">
 <link rel="icon" href="assets/logo-badge.png">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -28,6 +27,7 @@ tailwind.config = {
       fontFamily: {
         display: ['"Inter Tight"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         sans:    ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        hand:    ['Caveat', 'cursive'],
         mono:    ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       maxWidth: { shell: '1200px', measure: '70ch' },
@@ -57,12 +57,33 @@ tailwind.config = {
     --lift-2: 0 1px 2px rgba(26,22,20,.05), 0 10px 28px -12px rgba(26,22,20,.14);
     --lift-3: 0 2px 4px rgba(26,22,20,.06), 0 22px 50px -18px rgba(26,22,20,.24);
     --lift-accent: 0 1px 2px rgba(26,22,20,.10), 0 14px 32px -14px rgba(252,54,45,.42);
-
     --ease-spring: cubic-bezier(.22,1,.36,1);
-    /* Measured off the template: ~450ms reveal on an ease-out cubic. */
     --ease-out: cubic-bezier(.33,1,.68,1);
     --reveal: 450ms;
     --rule: rgba(26,22,20,.12);
+  }
+
+  /* Doodle handwritten accents */
+  .font-handwritten { font-family: 'Caveat', cursive; }
+  .doodle-underline {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3,15 Q50,5 100,14 T197,10' fill='none' stroke='%23FC362D' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 12px;
+    padding-bottom: 4px;
+  }
+  .doodle-circle {
+    position: relative;
+  }
+  .doodle-circle::after {
+    content: '';
+    position: absolute;
+    inset: -6px -12px;
+    border: 2px dashed var(--accent);
+    border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+    pointer-events: none;
+    transform: rotate(-2deg);
+  }
   }
 
   html { scroll-behavior: smooth; }
@@ -162,17 +183,9 @@ tailwind.config = {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  /* ---- Images: gradient overlay + colour treatment --------------------- */
+  /* ---- Images: clean presentation --------------------------------------- */
   .shot { position: relative; overflow: hidden; border-radius: 20px; background: var(--linen); }
   .shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .shot::before {
-    content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
-    background: linear-gradient(to top, rgba(26,22,20,.60), rgba(26,22,20,0) 62%);
-  }
-  .shot::after {
-    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background: var(--accent); mix-blend-mode: multiply; opacity: .06;
-  }
 
   /* ---- Interactive states — every clickable gets all three ------------- */
   .btn {
@@ -275,26 +288,24 @@ tailwind.config = {
 <header class="sticky top-0 z-40 border-b border-[color:var(--rule)] bg-white/85 backdrop-blur-md">
   <div class="mx-auto flex max-w-shell items-center gap-6 px-6 py-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
 
-    <!-- Clear space (cap-height of the A) is enforced here, not baked into the file -->
-    <a href="#" class="flex-none justify-self-start py-1 pr-2 transition-opacity duration-300 hover:opacity-80">
+<!-- ============================ NAV ============================ -->
+<header class="sticky top-0 z-40 border-b border-[color:var(--rule)] bg-white/85 backdrop-blur-md">
+  <div class="mx-auto flex max-w-shell items-center gap-6 px-6 py-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+
+    <!-- Logo -->
+    <a href="#" class="flex-none justify-self-start py-1 pr-2 flex items-center gap-3 transition-opacity duration-300 hover:opacity-80">
       <img src="assets/logo-badge.png" alt="A.M.A" class="h-10 w-auto rounded-lg" width="321" height="172">
     </a>
 
     <nav class="hidden items-center gap-9 text-[.9375rem] lg:flex" aria-label="Primary">
       <a href="#work"     class="navlink">Work</a>
+      <a href="#manifesto" class="navlink">Manifesto</a>
       <a href="#services" class="navlink">Services</a>
       <a href="#pricing"  class="navlink">Pricing</a>
       <a href="#notes"    class="navlink">Notes</a>
     </nav>
 
     <div class="ml-auto flex items-center gap-3 lg:ml-0 lg:justify-self-end">
-      <!-- Search and the CTA are desktop-only; phones get the menu button instead. -->
-      <button type="button" aria-label="Search" class="hidden h-10 w-10 place-items-center rounded-full border border-[color:var(--rule)] lg:grid">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
-        </svg>
-      </button>
-
       <a href="#contact" class="btn btn-ink hidden lg:inline-flex">Ask us anything <span class="arw" aria-hidden="true">→</span></a>
 
       <button type="button" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"
@@ -309,12 +320,11 @@ tailwind.config = {
     </div>
   </div>
 
-  <!-- Phone navigation. The links live only here below 1024px, so the button
-       has to open something real rather than sit there as decoration. -->
   <div id="mobile-menu" hidden class="border-t border-[color:var(--rule)] bg-white lg:hidden">
     <nav class="mx-auto max-w-shell px-6 py-4" aria-label="Mobile">
       <ul class="text-[1.0625rem]">
         <li><a href="#work"     class="block border-b border-[color:var(--rule)] py-3.5">Work</a></li>
+        <li><a href="#manifesto" class="block border-b border-[color:var(--rule)] py-3.5">Manifesto</a></li>
         <li><a href="#services" class="block border-b border-[color:var(--rule)] py-3.5">Services</a></li>
         <li><a href="#pricing"  class="block border-b border-[color:var(--rule)] py-3.5">Pricing</a></li>
         <li><a href="#notes"    class="block py-3.5">Notes</a></li>
@@ -331,40 +341,96 @@ tailwind.config = {
   <div class="mx-auto grid max-w-shell items-center gap-x-16 gap-y-12 px-6 pb-20 pt-16 md:pt-20 lg:grid-cols-[1.05fr_.95fr] lg:pb-28">
 
     <div class="rise">
-      <p class="eyebrow u-label">Web · Apps · AI · MVPs</p>
+      <div class="inline-flex items-center gap-3">
+        <p class="eyebrow u-label">Web · Apps · AI Bots · AR · NFC</p>
+        <span class="font-handwritten text-lg text-accent font-bold -rotate-3">✨ Hand-crafted software studio</span>
+      </div>
 
       <h1 class="u-display u-h1 mt-7">
         Ask us anything<br>
-        <span class="text-accent">we'll build it.</span>
+        <span class="text-accent doodle-underline">we'll build it.</span>
       </h1>
 
       <p class="u-body mt-7 max-w-[46ch]">
-        A small studio for web design, AI automation, MVPs and apps.
-        Send the problem; we send a plan.
+        A small studio for web design, AI automation, MVPs and apps. Send the problem; we send a plan.
       </p>
 
-      <div class="mt-9">
+      <div class="mt-9 flex flex-wrap items-center gap-4">
         <a href="#contact" class="btn btn-accent">Start a project <span class="arw" aria-hidden="true">→</span></a>
+        <a href="#work" class="btn btn-ghost">Explore our work</a>
       </div>
 
-      <!-- Social proof -->
-      <div class="mt-12 inline-flex items-center gap-4 rounded-2xl border border-[color:var(--rule)] bg-white/55 p-3 pr-5" style="box-shadow: var(--lift-1)">
-        <div class="flex -space-x-2.5">
-          <img src="https://placehold.co/72x72/C7BFAE/C7BFAE" alt="" class="h-9 w-9 rounded-full border-2 border-paper object-cover">
-          <img src="https://placehold.co/72x72/C7BFAE/C7BFAE" alt="" class="h-9 w-9 rounded-full border-2 border-paper object-cover">
-          <img src="https://placehold.co/72x72/C7BFAE/C7BFAE" alt="" class="h-9 w-9 rounded-full border-2 border-paper object-cover">
-          <img src="https://placehold.co/72x72/C7BFAE/C7BFAE" alt="" class="h-9 w-9 rounded-full border-2 border-paper object-cover">
+      <!-- Anonymous Doodle Team Badge -->
+      <div class="mt-12 inline-flex items-center gap-4 rounded-2xl border border-[color:var(--rule)] bg-white/80 p-3.5 pr-6" style="box-shadow: var(--lift-1)">
+        <div class="flex -space-x-3">
+          <!-- Person 1 (Her) - UI/UX & AR -->
+          <div class="relative grid h-10 w-10 place-items-center rounded-full border-2 border-white bg-gradient-to-tr from-pink-500 to-rose-400 text-white font-bold text-xs shadow-sm">
+            <span>🎨</span>
+          </div>
+          <!-- Person 2 (Him) - Systems & Dental Apps -->
+          <div class="relative grid h-10 w-10 place-items-center rounded-full border-2 border-white bg-gradient-to-tr from-amber-500 to-orange-400 text-white font-bold text-xs shadow-sm">
+            <span>⚡</span>
+          </div>
+          <!-- Person 3 (Him) - WhatsApp Bots & AI -->
+          <div class="relative grid h-10 w-10 place-items-center rounded-full border-2 border-white bg-gradient-to-tr from-emerald-500 to-teal-400 text-white font-bold text-xs shadow-sm">
+            <span>🤖</span>
+          </div>
         </div>
         <div>
-          <p class="text-sm font-medium leading-tight">40+ projects shipped</p>
-          <p class="u-label mt-1 text-graphite/70"><span class="text-accent">★★★★★</span> &nbsp;4.9/5 · 28 reviews</p>
+          <p class="text-sm font-semibold leading-tight flex items-center gap-2">
+            3 Engineers. Zero Middlemen.
+          </p>
+          <p class="font-handwritten text-accent text-sm leading-tight mt-0.5">
+            "You talk directly to the people building your code!"
+          </p>
         </div>
       </div>
     </div>
 
-    <div class="rise-far shot aspect-[4/3] w-full lg:aspect-[5/4]" style="box-shadow: var(--lift-3)">
-      <img src="https://placehold.co/1000x800" alt="The A.M.A studio team working through a client problem at a table">
-      <p class="u-label absolute bottom-5 left-6 z-[3] text-paper/85">A conversation before a company</p>
+    <!-- Hero Right Illustration Panel with Doodles -->
+    <div class="rise-far relative">
+      <div class="shot aspect-[4/3] w-full rounded-3xl overflow-hidden border border-[color:var(--rule)] bg-paper p-8 lg:aspect-[5/4]" style="box-shadow: var(--lift-3)">
+        <div class="h-full w-full rounded-2xl border-2 border-dashed border-ink/20 p-6 flex flex-col justify-between bg-white/70 relative">
+          
+          <!-- Doodle callouts top right -->
+          <div class="absolute -top-3 -right-3 rounded-full bg-accent text-white px-3 py-1 text-xs font-mono tracking-wide shadow-md rotate-6">
+            100% HANDMADE
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="u-label text-ink/60">A.M.A Studio Board</span>
+              <span class="font-handwritten text-xl text-accent font-bold">~ 5-day prototype magic ~</span>
+            </div>
+
+            <!-- Interactive doodle card previews -->
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3.5 rounded-xl bg-raised border border-linen">
+                <span class="text-xs font-mono text-ink/70">DENTAL APP</span>
+                <p class="text-sm font-semibold mt-1">Multi-doctor charts &amp; intake</p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-raised border border-linen">
+                <span class="text-xs font-mono text-ink/70">WHATSAPP BOT</span>
+                <p class="text-sm font-semibold mt-1">Fitness workout &amp; diet AI</p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-raised border border-linen">
+                <span class="text-xs font-mono text-ink/70">NFC CARDS</span>
+                <p class="text-sm font-semibold mt-1">Tap business &amp; social profiles</p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-raised border border-linen">
+                <span class="text-xs font-mono text-ink/70">SPATIAL AR</span>
+                <p class="text-sm font-semibold mt-1">Browser-based 3D product view</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-ink/10 flex items-center justify-between">
+            <span class="font-handwritten text-lg text-ink/80">"Send the problem, we ship the solution."</span>
+            <span class="u-label text-accent font-bold">A.M.A CREW</span>
+          </div>
+
+        </div>
+      </div>
     </div>
 
   </div>
@@ -373,60 +439,198 @@ tailwind.config = {
 <!-- ======================= TRUSTED STRIP ======================= -->
 <section class="border-y border-[color:var(--rule)] py-10">
   <div class="mx-auto max-w-shell px-6">
-    <p class="u-label text-center text-graphite/60">Trusted by 40+ teams around the globe</p>
-    <ul class="mt-7 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 lg:justify-between">
-      <li class="u-display text-2xl text-graphite/45">Northwind</li>
-      <li class="font-mono text-lg tracking-[.2em] text-graphite/45">LOOPWORK</li>
-      <li class="u-display text-2xl italic text-graphite/45">Ipsum &amp; Co</li>
-      <li class="font-sans text-xl font-semibold tracking-tight text-graphite/45">Meridian</li>
-      <li class="font-mono text-lg tracking-[.2em] text-graphite/45">HALCYON</li>
-      <li class="u-display text-2xl text-graphite/45">Fieldnote</li>
-      <li class="font-sans text-xl font-semibold tracking-tight text-graphite/45">Otter</li>
+    <p class="u-label text-center text-graphite/60 tracking-wider">Teams who trusted us with their ideas</p>
+    <ul class="mt-7 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 lg:justify-center">
+      <li class="u-display text-2xl font-extrabold text-graphite/60">Prodontics</li>
+      <li class="font-sans text-xl font-bold tracking-tight text-graphite/60">Dental Planet</li>
+      <li class="u-display text-2xl italic font-semibold text-graphite/60">Victory Hotels</li>
     </ul>
   </div>
 </section>
 
-<!-- ============================ ABOUT ============================ -->
+<!-- ============================ ABOUT & CREW ============================ -->
 <section id="about" class="px-6 py-20 lg:py-28">
   <div class="mx-auto max-w-shell">
 
     <div class="rise mx-auto max-w-3xl text-center">
-      <p class="eyebrow u-label">About the studio</p>
+      <p class="eyebrow u-label">Meet the Studio</p>
       <h2 class="u-display u-h2 mt-6">
-        We answer fast, ship small,<br class="hidden md:block">
-        and fix it in daylight<span class="stop">.</span>
+        Three builders. No bloated decks.<br class="hidden md:block">
+        Direct line to the engineers<span class="stop">.</span>
       </h2>
+      <p class="u-body mt-5 max-w-2xl mx-auto">
+        We are a digital product studio built to solve complex problems through clean code, modern design, and fast prototypes. Send us any problem, however unusual; we will craft the solution.
+      </p>
     </div>
 
-    <div class="mt-16 grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-      <div class="rise-far shot aspect-[4/3]" style="box-shadow: var(--lift-2)">
-        <img src="https://placehold.co/900x680" alt="Two A.M.A designers reviewing a build on a laptop">
+    <!-- Anonymous 3-Person Team Cards -->
+    <div class="mt-14 grid gap-6 md:grid-cols-3">
+      <!-- Person 1 (Her): UI/UX & AR -->
+      <div class="card rise p-7 relative overflow-hidden group hover:border-accent/40 transition-colors">
+        <div class="flex items-center justify-between">
+          <div class="h-12 w-12 rounded-2xl bg-gradient-to-tr from-pink-500 to-rose-400 text-white flex items-center justify-center text-xl font-bold shadow-md">
+            🎨
+          </div>
+          <span class="u-label text-accent font-bold">SHE / HER</span>
+        </div>
+        <h3 class="u-display text-xl mt-5">UI/UX &amp; AR Specialist</h3>
+        <p class="u-body text-sm mt-2 text-graphite/80">
+          Crafts pixel-perfect interfaces, brand identity systems, and immersive WebAR spatial 3D experiences.
+        </p>
+        <div class="mt-5 pt-4 border-t border-[color:var(--rule)] flex flex-wrap gap-2">
+          <span class="px-2.5 py-1 rounded-md bg-paper text-xs font-mono text-ink">WebAR</span>
+          <span class="px-2.5 py-1 rounded-md bg-paper text-xs font-mono text-ink">UI Motion</span>
+          <span class="px-2.5 py-1 rounded-md bg-paper text-xs font-mono text-ink">Brand Design</span>
+        </div>
       </div>
 
+      <!-- Person 2 (Him): Systems & Dental Apps -->
+      <div class="card rise p-7 relative overflow-hidden group hover:border-accent/40 transition-colors">
+        <div class="flex items-center justify-between">
+          <div class="h-12 w-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-400 text-white flex items-center justify-center text-xl font-bold shadow-md">
+            ⚡
+          </div>
+          <span class="u-label text-accent font-bold">HE / HIM</span>
+        </div>
+        <h3 class="u-display text-xl mt-5">Systems &amp; App Architect</h3>
+        <p class="u-body text-sm mt-2 text-graphite/80">
+          Engineers dental clinic management portals, custom NFC tap-card profiles, high-traffic APIs &amp; databases.
+        </p>
+        <div class="mt-5 pt-4 border-t border-[color:var(--rule)] flex flex-wrap gap-2">
+          <span class="px-2.5 py-1 rounded-md bg-paper text-xs font-mono text-ink">Next.js</span>
+          <span class="px-2.5 py-1 rounded-md bg-paper text-xs font-mono text-ink">Dental Apps</span>
+          <span class="px-2.5 py-1 rounded-md bg-paper text-xs font-mono text-ink">NFC Tech</span>
+        </div>
+      </div>
+
+      <!-- Person 3 (Him): AI & WhatsApp Bots -->
+      <div class="card rise p-7 relative overflow-hidden group hover:border-accent/40 transition-colors">
+        <div class="flex items-center justify-between">
+          <div class="h-12 w-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center text-xl font-bold shadow-md">
+            🤖
+          </div>
+          <span class="u-label text-accent font-bold">HE / HIM</span>
+        </div>
+        <h3 class="u-display text-xl mt-5">AI &amp; Bot Automation Engineer</h3>
+        <p class="u-body text-sm mt-2 text-graphite/80">
+          Builds smart WhatsApp fitness trainer bots, automated intake funnels, and custom AI agent workflows.
+        </p>
+        <div class="mt-5 pt-4 border-t border-[color:var(--rule)] flex flex-wrap gap-2">
+          <span class="px-2.5 py-1 rounded-md bg-paper text-xs font-mono text-ink">WhatsApp API</span>
+          <span class="px-2.5 py-1 rounded-md bg-paper text-xs font-mono text-ink">Python</span>
+          <span class="px-2.5 py-1 rounded-md bg-paper text-xs font-mono text-ink">AI Automation</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Studio stats -->
+    <div class="mt-14 card bg-paper/50 p-8">
+      <dl class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center sm:text-left">
+        <div class="flex flex-col-reverse">
+          <dt class="u-label mt-2 text-graphite/60">Projects Shipped</dt>
+          <dd class="u-display text-4xl font-extrabold leading-none">4<span class="stop">+</span></dd>
+        </div>
+        <div class="flex flex-col-reverse">
+          <dt class="u-label mt-2 text-graphite/60">Year Building Together</dt>
+          <dd class="u-display text-4xl font-extrabold leading-none">1<span class="stop">+</span></dd>
+        </div>
+        <div class="flex flex-col-reverse">
+          <dt class="u-label mt-2 text-graphite/60">Years Avg. Experience</dt>
+          <dd class="u-display text-4xl font-extrabold leading-none">4<span class="stop">+</span></dd>
+        </div>
+        <div class="flex flex-col-reverse">
+          <dt class="u-label mt-2 text-graphite/60">Direct Engineer Access</dt>
+          <dd class="u-display text-4xl font-extrabold leading-none">100<span class="stop">%</span></dd>
+        </div>
+      </dl>
+      <div class="mt-8 pt-6 border-t border-[color:var(--rule)] flex justify-center">
+        <div class="flex flex-col-reverse text-center">
+          <dt class="u-label mt-2 text-graphite/60 font-semibold">Agency Drama</dt>
+          <dd class="u-display text-4xl font-extrabold leading-none text-accent">0<span class="stop">%</span></dd>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================ MANIFESTO & TECH STACK ============================ -->
+<section id="manifesto" class="px-6 py-20 bg-ink text-paper relative overflow-hidden">
+  <div class="mx-auto max-w-shell">
+
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
       <div class="rise">
-        <p class="u-body max-w-measure">
-          Most agencies answer with a deck. We answer with a plan, then a working thing you can click.
-          You talk to the people building it — no account layer, no handoff, no "per our last email".
+        <span class="u-label text-accent tracking-widest font-bold">STUDIO MANIFESTO</span>
+        <h2 class="u-display text-3xl md:text-4xl lg:text-5xl mt-5 font-bold leading-tight">
+          Ship small, talk straight, and build software that lives in the real world<span class="text-accent">.</span>
+        </h2>
+        <p class="mt-6 text-linen/90 leading-relaxed text-lg">
+          We don’t do 50-page decks or 6-month discovery phases. We take your problem, write the code, and give you something real to click within days.
         </p>
 
-        <dl class="mt-10 grid grid-cols-3 gap-6">
-          <div class="flex flex-col-reverse">
-            <dt class="u-label mt-3 text-graphite/60">Projects shipped</dt>
-            <dd class="u-display text-[3.25rem] font-extrabold leading-none">40<span class="stop">+</span></dd>
+        <!-- 3-Step Workflow -->
+        <div class="mt-10 space-y-4">
+          <div class="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
+            <span class="flex-none h-8 w-8 rounded-full bg-accent text-white font-bold flex items-center justify-center text-sm">1</span>
+            <div>
+              <h4 class="font-bold text-white">Ask us anything</h4>
+              <p class="text-sm text-linen/80">Send your idea via raw text, voice note, or napkin sketch.</p>
+            </div>
           </div>
-          <div class="flex flex-col-reverse">
-            <dt class="u-label mt-3 text-graphite/60">Years building</dt>
-            <dd class="u-display text-[3.25rem] font-extrabold leading-none">6<span class="stop">+</span></dd>
+          <div class="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
+            <span class="flex-none h-8 w-8 rounded-full bg-accent text-white font-bold flex items-center justify-center text-sm">2</span>
+            <div>
+              <h4 class="font-bold text-white">5-Day Prototype</h4>
+              <p class="text-sm text-linen/80">We send back a scope, fixed price, and a working demo link.</p>
+            </div>
           </div>
-          <div class="flex flex-col-reverse">
-            <dt class="u-label mt-3 text-graphite/60">Clients who return</dt>
-            <dd class="u-display text-[3.25rem] font-extrabold leading-none">94<span class="stop">%</span></dd>
+          <div class="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
+            <span class="flex-none h-8 w-8 rounded-full bg-accent text-white font-bold flex items-center justify-center text-sm">3</span>
+            <div>
+              <h4 class="font-bold text-white">Ship &amp; Scale</h4>
+              <p class="text-sm text-linen/80">We launch to production with zero bloated retainer traps.</p>
+            </div>
           </div>
-        </dl>
+        </div>
+      </div>
 
-        <a href="#contact" class="btn btn-ink mt-10">Start a project <span class="arw" aria-hidden="true">→</span></a>
+      <!-- Tech Stack Badges Grid -->
+      <div class="rise-far bg-white/5 p-8 rounded-3xl border border-white/10 space-y-6">
+        <h3 class="u-label text-linen/70 uppercase tracking-wider">Technologies We Build With</h3>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div class="p-3.5 rounded-xl bg-white/10 hover:bg-white/15 transition-colors border border-white/10">
+            <span class="text-xs font-mono text-accent block">FRONTEND</span>
+            <span class="font-semibold text-white text-sm">Next.js &amp; React</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-white/10 hover:bg-white/15 transition-colors border border-white/10">
+            <span class="text-xs font-mono text-accent block">STYLING</span>
+            <span class="font-semibold text-white text-sm">Tailwind CSS</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-white/10 hover:bg-white/15 transition-colors border border-white/10">
+            <span class="text-xs font-mono text-accent block">AR &amp; SPATIAL</span>
+            <span class="font-semibold text-white text-sm">Three.js / WebAR</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-white/10 hover:bg-white/15 transition-colors border border-white/10">
+            <span class="text-xs font-mono text-accent block">AI &amp; BOTS</span>
+            <span class="font-semibold text-white text-sm">WhatsApp API</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-white/10 hover:bg-white/15 transition-colors border border-white/10">
+            <span class="text-xs font-mono text-accent block">HARDWARE</span>
+            <span class="font-semibold text-white text-sm">Web NFC Tech</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-white/10 hover:bg-white/15 transition-colors border border-white/10">
+            <span class="text-xs font-mono text-accent block">BACKEND</span>
+            <span class="font-semibold text-white text-sm">Node &amp; Python</span>
+          </div>
+        </div>
+
+        <div class="pt-6 border-t border-white/10 text-center">
+          <span class="font-handwritten text-xl text-accent">"Built clean. No legacy tech debt."</span>
+        </div>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -439,7 +643,7 @@ tailwind.config = {
       <h2 class="u-display u-h2 mt-6">Ask us for<br>any of these<span class="stop">.</span></h2>
       <p class="u-body mt-6 max-w-measure">
         Four things, done properly. If your problem sits between two of them, that's usually
-        the interesting one — ask anyway.
+        the interesting one, ask anyway.
       </p>
       <a href="#contact" class="btn btn-accent mt-8">Get started <span class="arw" aria-hidden="true">→</span></a>
     </div>
@@ -497,57 +701,135 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ============================ WORK ============================ -->
+<!-- ============================ WORK & CASE STUDIES ============================ -->
 <section id="work" class="px-6 py-20 lg:py-28">
   <div class="mx-auto max-w-shell">
     <div class="rise mx-auto max-w-2xl text-center">
-      <p class="eyebrow u-label">Recent work</p>
-      <h2 class="u-display u-h2 mt-6">Work we'd show you first<span class="stop">.</span></h2>
+      <p class="eyebrow u-label">Real Client Work</p>
+      <h2 class="u-display u-h2 mt-6">Projects we've shipped<span class="stop">.</span></h2>
       <p class="u-body mt-5">
-        Four we're glad to be judged on. Each one started as a question and ended as something shipped.
+        From dental clinic management software to WhatsApp AI bots and tap-to-connect NFC business cards. Here is what we build.
       </p>
     </div>
 
-    <div class="mt-14 grid gap-6 md:grid-cols-2">
-      <article class="rise-far group">
-        <a href="#work" class="block">
-          <div class="shot aspect-[4/3]" style="box-shadow: var(--lift-2)">
-            <img src="https://placehold.co/840x630" alt="Greenleaf — brand and site">
+    <div class="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      
+      <!-- Project 1: Dental Clinic Management App -->
+      <article class="rise-far group card p-5 hover:shadow-lg transition-all">
+        <div class="shot aspect-[4/3] rounded-xl overflow-hidden" style="box-shadow: var(--lift-2)">
+          <img src="assets/dental-app.png" alt="Dental Clinic Management App" class="w-full h-full object-cover">
+        </div>
+        <div class="mt-5">
+          <div class="flex items-center justify-between">
+            <span class="u-label text-accent font-bold">HEALTHCARE TECH</span>
+            <span class="text-xs font-mono text-graphite/60">Shipped in 3 wks</span>
           </div>
-          <h3 class="u-display mt-4 text-[1.375rem]">Greenleaf</h3>
-        </a>
+          <h3 class="u-display mt-2 text-xl font-bold">Dental Care Management App</h3>
+          <p class="u-body text-sm mt-2 text-graphite/80">
+            Multi-doctor clinic portal for patient intake, interactive tooth charting, billing, and automated SMS reminders.
+          </p>
+          <div class="mt-4 pt-3 border-t border-[color:var(--rule)] flex flex-wrap gap-2">
+            <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">Next.js</span>
+            <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">PostgreSQL</span>
+            <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">HIPAA Ready</span>
+          </div>
+        </div>
       </article>
 
-      <article class="rise-far group">
-        <a href="#work" class="block">
-          <div class="shot aspect-[4/3]" style="box-shadow: var(--lift-2)">
-            <img src="https://placehold.co/840x630" alt="Sunrise Resort — booking platform">
+      <!-- Project 2: WhatsApp Bot for Fitness Trainers -->
+      <article class="rise-far group card p-5 hover:shadow-lg transition-all">
+        <div class="shot aspect-[4/3] rounded-xl overflow-hidden" style="box-shadow: var(--lift-2)">
+          <img src="assets/fitness-bot.png" alt="WhatsApp Bot for Fitness Trainers" class="w-full h-full object-cover">
+        </div>
+        <div class="mt-5">
+          <div class="flex items-center justify-between">
+            <span class="u-label text-accent font-bold">AI &amp; AUTOMATION</span>
+            <span class="text-xs font-mono text-graphite/60">Shipped in 2 wks</span>
           </div>
-          <h3 class="u-display mt-4 text-[1.375rem]">Sunrise Resort</h3>
-        </a>
+          <h3 class="u-display mt-2 text-xl font-bold">WhatsApp Fitness Trainer Bot</h3>
+          <p class="u-body text-sm mt-2 text-graphite/80">
+            AI-powered WhatsApp assistant delivering daily workout routines, macro meal logging, and weekly progress charts automatically.
+          </p>
+          <div class="mt-4 pt-3 border-t border-[color:var(--rule)] flex flex-wrap gap-2">
+            <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">WhatsApp API</span>
+            <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">Python AI</span>
+            <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">Node</span>
+          </div>
+        </div>
       </article>
 
-      <article class="rise-far group">
-        <a href="#work" class="block">
-          <div class="shot aspect-[4/3]" style="box-shadow: var(--lift-2)">
-            <img src="https://placehold.co/840x630" alt="Johnson &amp; Partners — intake automation">
+      <!-- Project 3: NFC Social & Business Card Platform -->
+      <article class="rise-far group card p-5 hover:shadow-lg transition-all">
+        <div class="shot aspect-[4/3] rounded-xl overflow-hidden" style="box-shadow: var(--lift-2)">
+          <img src="assets/nfc-cards.png" alt="NFC Custom Printing Suite" class="w-full h-full object-cover">
+        </div>
+        <div class="mt-5">
+          <div class="flex items-center justify-between">
+            <span class="u-label text-accent font-bold">HARDWARE &amp; WEB</span>
+            <span class="text-xs font-mono text-graphite/60">Shipped in 4 wks</span>
           </div>
-          <h3 class="u-display mt-4 text-[1.375rem]">Johnson &amp; Partners</h3>
-        </a>
+          <h3 class="u-display mt-2 text-xl font-bold">NFC Smart Card &amp; Profile Suite</h3>
+          <p class="u-body text-sm mt-2 text-graphite/80">
+            Tap-to-connect physical NFC business &amp; social cards with dynamic web profile editing, vCard contact saving, and custom laser printing.
+          </p>
+          <div class="mt-4 pt-3 border-t border-[color:var(--rule)] flex flex-wrap gap-2">
+            <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">Web NFC API</span>
+            <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">Victory Hotels</span>
+            <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">Tailwind</span>
+          </div>
+        </div>
       </article>
 
-      <article class="rise-far group">
-        <a href="#work" class="block">
-          <div class="shot aspect-[4/3]" style="box-shadow: var(--lift-2)">
-            <img src="https://placehold.co/840x630" alt="Sweet Delights — ordering MVP">
+      <!-- Project 4: WebAR Product Showcase -->
+      <article class="rise-far group card p-5 hover:shadow-lg transition-all">
+        <div class="shot aspect-[4/3] rounded-xl overflow-hidden" style="box-shadow: var(--lift-2)">
+          <img src="assets/ar-showcase.png" alt="WebAR Interactive Showcase" class="w-full h-full object-cover">
+        </div>
+        <div class="mt-5">
+          <div class="flex items-center justify-between">
+            <span class="u-label text-accent font-bold">AR &amp; SPATIAL</span>
+            <span class="text-xs font-mono text-graphite/60">Shipped in 3 wks</span>
           </div>
-          <h3 class="u-display mt-4 text-[1.375rem]">Sweet Delights</h3>
-        </a>
+          <h3 class="u-display mt-2 text-xl font-bold">WebAR Spatial Product Experience</h3>
+          <p class="u-body text-sm mt-2 text-graphite/80">
+            Browser-native 3D &amp; Augmented Reality viewer allowing customers to place 3D products in physical space without downloading apps.
+          </p>
+          <div class="mt-4 pt-3 border-t border-[color:var(--rule)] flex flex-wrap gap-2">
+            <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">Three.js</span>
+            <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">WebXR</span>
+            <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">GLTF 3D</span>
+          </div>
+        </div>
       </article>
+
+      <!-- Project 5: Healthcare Clinic Website -->
+      <article class="rise-far group card p-5 hover:shadow-lg transition-all md:col-span-2 lg:col-span-2">
+        <div class="grid md:grid-cols-2 gap-6 items-center">
+          <div class="shot aspect-[4/3] rounded-xl overflow-hidden" style="box-shadow: var(--lift-2)">
+            <img src="assets/clinic-website.png" alt="Healthcare Clinic Website" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="u-label text-accent font-bold">WEB DESIGN &amp; PORTAL</span>
+              <span class="text-xs font-mono text-graphite/60">Shipped in 2 wks</span>
+            </div>
+            <h3 class="u-display mt-2 text-2xl font-bold">Modern Healthcare Clinic Website</h3>
+            <p class="u-body text-sm mt-3 text-graphite/80">
+              High-converting medical clinic platform featuring automated online booking, doctor profiles, service catalogs, and instant patient triage.
+            </p>
+            <div class="mt-5 pt-3 border-t border-[color:var(--rule)] flex flex-wrap gap-2">
+              <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">Next.js 16</span>
+              <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">Patient Portal</span>
+              <span class="px-2 py-0.5 rounded bg-raised text-[11px] font-mono text-ink">SEO 100</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
     </div>
 
-    <div class="mt-12 text-center">
-      <a href="#work" class="btn btn-accent">All projects <span class="arw" aria-hidden="true">→</span></a>
+    <div class="mt-14 text-center">
+      <a href="#contact" class="btn btn-accent">Have a project idea? Ask us anything <span class="arw" aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
@@ -559,7 +841,7 @@ tailwind.config = {
       <p class="eyebrow u-label">What clients say</p>
       <h2 class="u-display u-h2 mt-6">The reply, from their side<span class="stop">.</span></h2>
       <p class="u-body mt-5">
-        We asked four clients what it was actually like. These are their words, lightly trimmed.
+        We asked our clients what it was actually like. These are their words, lightly trimmed.
       </p>
     </div>
 
@@ -569,8 +851,8 @@ tailwind.config = {
         <summary class="flex items-center gap-4 py-5">
           <img src="https://placehold.co/88x88/C7BFAE/C7BFAE" alt="" class="h-11 w-11 flex-none rounded-full object-cover">
           <span class="min-w-0">
-            <span class="block font-medium">Alec Ramírez</span>
-            <span class="u-label block text-graphite/60">Founder · Greenleaf</span>
+            <span class="block font-medium">Surya Teja</span>
+            <span class="u-label block text-graphite/60">Founder · Prodontics</span>
           </span>
           <span class="chev ml-auto grid h-9 w-9 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
@@ -578,7 +860,7 @@ tailwind.config = {
         </summary>
         <p class="acc-body u-body max-w-measure pb-6 pl-[3.75rem]">
           "I sent them a messy problem on a Tuesday and had a plan on Friday, exactly like they said.
-          The first version was smaller than I expected — and that turned out to be the point."
+          The clinic management system and multi-doctor schedule were live in weeks."
         </p>
       </details>
 
@@ -586,50 +868,16 @@ tailwind.config = {
         <summary class="flex items-center gap-4 py-5">
           <img src="https://placehold.co/88x88/C7BFAE/C7BFAE" alt="" class="h-11 w-11 flex-none rounded-full object-cover">
           <span class="min-w-0">
-            <span class="block font-medium">Sofia Lee</span>
-            <span class="u-label block text-graphite/60">Operations · Halcyon</span>
+            <span class="block font-medium">Vittal Jadhav</span>
+            <span class="u-label block text-graphite/60">Corporate General Manager · Victory Hotels</span>
           </span>
           <span class="chev ml-auto grid h-9 w-9 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
           </span>
         </summary>
         <p class="acc-body u-body max-w-measure pb-6 pl-[3.75rem]">
-          "The automation they built quietly removed about six hours a week from my team.
-          Nobody had to be trained on it, which I think is the highest compliment I can give."
-        </p>
-      </details>
-
-      <details class="card rise px-6">
-        <summary class="flex items-center gap-4 py-5">
-          <img src="https://placehold.co/88x88/C7BFAE/C7BFAE" alt="" class="h-11 w-11 flex-none rounded-full object-cover">
-          <span class="min-w-0">
-            <span class="block font-medium">Lucca Rossi</span>
-            <span class="u-label block text-graphite/60">Founder · Sweet Delights</span>
-          </span>
-          <span class="chev ml-auto grid h-9 w-9 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-          </span>
-        </summary>
-        <p class="acc-body u-body max-w-measure pb-6 pl-[3.75rem]">
-          "They talked me out of half my feature list in the first call. We launched in five weeks
-          and I have never once missed the things we cut."
-        </p>
-      </details>
-
-      <details class="card rise px-6">
-        <summary class="flex items-center gap-4 py-5">
-          <img src="https://placehold.co/88x88/C7BFAE/C7BFAE" alt="" class="h-11 w-11 flex-none rounded-full object-cover">
-          <span class="min-w-0">
-            <span class="block font-medium">John Kennings</span>
-            <span class="u-label block text-graphite/60">Partner · Johnson &amp; Partners</span>
-          </span>
-          <span class="chev ml-auto grid h-9 w-9 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-          </span>
-        </summary>
-        <p class="acc-body u-body max-w-measure pb-6 pl-[3.75rem]">
-          "What I remember is being able to ask a stupid question at any point and getting a
-          straight answer back. No jargon, no upsell. Rare."
+          "The custom tap-to-connect NFC cards and web profile suite were built fast with zero friction.
+          Our executive team uses them daily for networking."
         </p>
       </details>
 
@@ -660,14 +908,27 @@ tailwind.config = {
           </span>
         </summary>
         <p class="acc-body u-body max-w-measure pb-6 pl-12">
-          Most sites land between £6k and £20k; MVPs and automation work are scoped per project.
-          You get a fixed number before we start, not a rate card and a surprise.
+          Every project is unique. We evaluate your requirements and offer the best, most competitive rates upfront.
+          You get a transparent, fixed quote before we start - no rate cards and zero surprises.
         </p>
       </details>
 
       <details class="card rise px-6">
         <summary class="flex items-center gap-5 py-5">
           <span class="u-label flex-none text-accent">02</span>
+          <span class="font-medium">Where is A.M.A based?</span>
+          <span class="chev ml-auto grid h-8 w-8 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="acc-body u-body max-w-measure pb-6 pl-12">
+          We are a proud Make in India 🇮🇳 software studio based in India. We engineer world-class web applications, AI bots, and custom digital products for businesses in India and globally.
+        </p>
+      </details>
+
+      <details class="card rise px-6">
+        <summary class="flex items-center gap-5 py-5">
+          <span class="u-label flex-none text-accent">03</span>
           <span class="font-medium">How long until something is live?</span>
           <span class="chev ml-auto grid h-8 w-8 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
@@ -681,14 +942,14 @@ tailwind.config = {
 
       <details class="card rise px-6">
         <summary class="flex items-center gap-5 py-5">
-          <span class="u-label flex-none text-accent">03</span>
+          <span class="u-label flex-none text-accent">04</span>
           <span class="font-medium">Who will I actually be talking to?</span>
           <span class="chev ml-auto grid h-8 w-8 flex-none place-items-center rounded-full border border-[color:var(--rule)] text-accent" aria-hidden="true">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
           </span>
         </summary>
         <p class="acc-body u-body max-w-measure pb-6 pl-12">
-          The people building it. A.M.A is small on purpose — there's no account manager
+          The engineers building it. A.M.A is small on purpose; there's no account manager
           between you and the work.
         </p>
       </details>
@@ -717,7 +978,7 @@ tailwind.config = {
         </summary>
         <p class="acc-body u-body max-w-measure pb-6 pl-12">
           Thirty days of fixes are included. After that, keep us on a small monthly retainer
-          or take the keys and run it yourself — both are fine.
+          or take the keys and run it yourself. Both are fine.
         </p>
       </details>
 
@@ -737,12 +998,12 @@ tailwind.config = {
       <div class="relative">
         <p class="u-label text-ink/55">Contact us</p>
         <h2 class="u-display mt-6 text-[clamp(2.25rem,5.2vw,4rem)] font-extrabold leading-[1.05] tracking-[-.035em] text-ink">
-          So — what can we<br>build for you?
+          So, what can we<br>build for you?
         </h2>
         <p class="u-body mx-auto mt-7 max-w-[42ch]">
           Send the problem, however messy. We'll send back a plan.
         </p>
-        <a href="mailto:hello@askme.ama" class="btn btn-accent mt-10">hello@askme.ama <span class="arw" aria-hidden="true">→</span></a>
+        <a href="mailto:ama.responds@gmail.com" class="btn btn-accent mt-10">ama.responds@gmail.com <span class="arw" aria-hidden="true">→</span></a>
       </div>
     </div>
   </div>
@@ -761,7 +1022,7 @@ tailwind.config = {
           A small studio for web design, AI automation, MVPs and apps.
           An invitation, always open.
         </p>
-        <p class="u-label mt-6 text-graphite/60">hello@askme.ama · +1 415 555 0132</p>
+        <p class="u-label mt-6 text-graphite/60">ama.responds@gmail.com</p>
       </div>
 
       <nav aria-label="Studio">
@@ -778,10 +1039,8 @@ tailwind.config = {
       <nav aria-label="Elsewhere">
         <h2 class="u-label text-graphite/60">Elsewhere</h2>
         <ul class="mt-5 max-w-[15rem] space-y-3.5 text-[.9375rem]">
-          <li><a href="#" class="sociallink flex items-center justify-between gap-3">Facebook  <span class="badge" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li>
-          <li><a href="#" class="sociallink flex items-center justify-between gap-3">Instagram <span class="badge" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li>
-          <li><a href="#" class="sociallink flex items-center justify-between gap-3">Twitter/X <span class="badge" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li>
-          <li><a href="#" class="sociallink flex items-center justify-between gap-3">LinkedIn  <span class="badge" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li>
+          <li><a href="https://www.instagram.com/ama.responds" target="_blank" rel="noopener noreferrer" class="sociallink flex items-center justify-between gap-3">Instagram (@ama.responds) <span class="badge" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li>
+          <li><a href="mailto:ama.responds@gmail.com" class="sociallink flex items-center justify-between gap-3">Email Us <span class="badge" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li>
         </ul>
       </nav>
     </div>

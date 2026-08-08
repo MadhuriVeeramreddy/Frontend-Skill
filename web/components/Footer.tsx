@@ -21,8 +21,11 @@ export default function Footer() {
               invitation, always open.
             </p>
             <p className="u-label mt-6 text-graphite/60">
-              {site.email} · {site.phone}
+              {site.email}
             </p>
+            <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-[color:var(--rule)] bg-white/80 px-3 py-1 text-xs font-semibold text-graphite/80">
+              <span>🇮🇳</span> Proudly Made in India
+            </div>
           </div>
 
           <nav aria-label="Studio">
@@ -45,6 +48,8 @@ export default function Footer() {
                 <li key={s.label}>
                   <a
                     href={s.href}
+                    target={s.href.startsWith("http") ? "_blank" : undefined}
+                    rel="noopener noreferrer"
                     className="sociallink flex items-center justify-between gap-3"
                   >
                     {s.label}
